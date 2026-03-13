@@ -253,6 +253,7 @@ export default function Home() {
             <div className="example-highlight">👟 <strong>Zappos:</strong> Chụp ảnh giày từ cửa hàng, đăng lên web. Khi có đơn → đi mua rồi ship. Chứng minh: người ta muốn mua giày online! → Bán cho Amazon <strong>$1.2 tỷ</strong>.</div>
             <div className="example-highlight">📦 <strong>Dropbox:</strong> Làm video demo 3 phút giả vờ sản phẩm đã xong. Đăng ký tăng từ 5,000 → <strong>75,000 người qua đêm</strong>.</div>
             <div className="example-highlight">📱 <strong>Buffer:</strong> Tạo landing page &quot;đang xây dựng&quot; + nút pricing → nếu click = có nhu cầu. Thu hút đủ sign-ups trước khi viết dòng code nào.</div>
+            <BufferDemo />
           </Accordion>
         </Slide>
 
@@ -449,6 +450,138 @@ function ModelCard({ tag, isNew, icon, name, desc }: { tag: string; isNew?: bool
       <div className={`model-tag${isNew ? " new" : ""}`}>{tag}</div>
       <h4><i className={`fas ${icon}`} /> {name}</h4>
       <p>{desc}</p>
+    </div>
+  );
+}
+
+function BufferDemo() {
+  const [phase, setPhase] = useState(0); // 0=idle, 1=cursor moving, 2=clicked, 3=signup shown
+
+  useEffect(() => {
+    if (phase === 0) {
+      const t = setTimeout(() => setPhase(1), 800);
+      return () => clearTimeout(t);
+    }
+    if (phase === 1) {
+      const t = setTimeout(() => setPhase(2), 1500);
+      return () => clearTimeout(t);
+    }
+    if (phase === 2) {
+      const t = setTimeout(() => setPhase(3), 600);
+      return () => clearTimeout(t);
+    }
+    if (phase === 3) {
+      const t = setTimeout(() => setPhase(0), 3500);
+      return () => clearTimeout(t);
+    }
+  }, [phase]);
+
+  return (
+    <div style={{marginTop:14,position:"relative"}}>
+      <p style={{fontSize:".78rem",color:"#aaa",marginBottom:8,textAlign:"center"}}>👇 Demo animation — xem cách Buffer validate ý tưởng</p>
+      <div style={{
+        background:"linear-gradient(135deg,#1a1a2e,#16213e)",
+        borderRadius:12,border:"1px solid rgba(108,92,231,.3)",
+        padding:0,overflow:"hidden",position:"relative",height:220
+      }}>
+        {/* Browser bar */}
+        <div style={{background:"rgba(0,0,0,.3)",padding:"6px 12px",display:"flex",alignItems:"center",gap:6}}>
+          <div style={{width:8,height:8,borderRadius:"50%",background:"#e17055"}}/>
+          <div style={{width:8,height:8,borderRadius:"50%",background:"#FDCB6E"}}/>
+          <div style={{width:8,height:8,borderRadius:"50%",background:"#00B894"}}/>
+          <div style={{flex:1,background:"rgba(255,255,255,.08)",borderRadius:4,padding:"2px 10px",fontSize:".65rem",color:"#888",marginLeft:8}}>bufferapp.com</div>
+        </div>
+
+        {/* Page content */}
+        <div style={{padding:"20px 24px",textAlign:"center"}}>
+          <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff",marginBottom:4}}>Buffer</div>
+          <div style={{fontSize:".72rem",color:"#aaa",marginBottom:14}}>A smarter way to share on social media</div>
+
+          {phase < 2 ? (
+            <>
+              <div style={{
+                display:"inline-block",
+                padding:"8px 22px",fontSize:".78rem",fontWeight:700,
+                background: phase === 1 ? "linear-gradient(135deg,#6C5CE7,#a29bfe)" : "linear-gradient(135deg,#00B894,#55efc4)",
+                color:"#fff",borderRadius:8,
+                transform: phase === 1 ? "scale(1.08)" : "scale(1)",
+                boxShadow: phase === 1 ? "0 0 20px rgba(108,92,231,.5)" : "none",
+                transition:"all .4s ease"
+              }}>
+                💰 See Plans & Pricing
+              </div>
+              <div style={{fontSize:".65rem",color:"#666",marginTop:10}}>Sản phẩm chưa có — chỉ test nhu cầu!</div>
+            </>
+          ) : (
+            <div style={{
+              animation:"fadeInUp .4s ease",
+            }}>
+              <div style={{
+                background:"rgba(0,184,148,.1)",border:"1px solid rgba(0,184,148,.3)",
+                borderRadius:10,padding:"12px 20px",display:"inline-block",textAlign:"left"
+              }}>
+                <div style={{fontSize:".82rem",fontWeight:700,color:"#00B894",marginBottom:6}}>✅ Có người click xem giá!</div>
+                <div style={{fontSize:".72rem",color:"#aaa",marginBottom:8}}>→ Nhu cầu THẬT. Giờ hiện form đăng ký:</div>
+                <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                  <input type="text" placeholder="Email của bạn..." readOnly style={{
+                    background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.15)",
+                    borderRadius:6,padding:"5px 10px",fontSize:".7rem",color:"#fff",width:160,outline:"none"
+                  }}/>
+                  <div style={{
+                    padding:"5px 14px",fontSize:".7rem",fontWeight:700,
+                    background:"linear-gradient(135deg,#00B894,#55efc4)",
+                    color:"#fff",borderRadius:6,whiteSpace:"nowrap"
+                  }}>Đăng ký!</div>
+                </div>
+                {phase === 3 && (
+                  <div style={{marginTop:8,fontSize:".7rem",color:"#FDCB6E",animation:"fadeInUp .3s ease"}}>
+                    📊 Đã có <strong style={{color:"#fff"}}>847 người</strong> đăng ký — chưa viết 1 dòng code!
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Animated cursor */}
+        {phase === 1 && (
+          <div style={{
+            position:"absolute",
+            width:20,height:20,
+            animation:"cursorMove 1.5s ease forwards",
+            zIndex:10,pointerEvents:"none",
+            filter:"drop-shadow(0 2px 4px rgba(0,0,0,.5))"
+          }}>
+            <svg viewBox="0 0 24 24" fill="#fff" width="20" height="20">
+              <path d="M4 0L4 20L9 15L14 22L17 20L12 13L19 13Z"/>
+            </svg>
+          </div>
+        )}
+        {phase === 2 && (
+          <div style={{
+            position:"absolute",top:"50%",left:"50%",
+            transform:"translate(-50%,-50%)",
+            width:40,height:40,borderRadius:"50%",
+            background:"rgba(108,92,231,.3)",
+            animation:"clickRipple .5s ease forwards",
+            pointerEvents:"none"
+          }}/>
+        )}
+      </div>
+      <style>{`
+        @keyframes cursorMove {
+          0% { top: 170px; left: 80px; }
+          100% { top: 105px; left: calc(50% - 10px); }
+        }
+        @keyframes clickRipple {
+          0% { width:10px;height:10px;opacity:1; }
+          100% { width:60px;height:60px;opacity:0; }
+        }
+        @keyframes fadeInUp {
+          0% { opacity:0; transform:translateY(10px); }
+          100% { opacity:1; transform:translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
