@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
+  const [showBuffer, setShowBuffer] = useState(false);
   const totalSlides = 23;
 
   const goTo = useCallback(
@@ -252,8 +253,9 @@ export default function Home() {
           <Accordion title="🔍 Ví dụ MVP nổi tiếng: Zappos, Dropbox, Buffer">
             <div className="example-highlight">👟 <strong>Zappos:</strong> Chụp ảnh giày từ cửa hàng, đăng lên web. Khi có đơn → đi mua rồi ship. Chứng minh: người ta muốn mua giày online! → Bán cho Amazon <strong>$1.2 tỷ</strong>.</div>
             <div className="example-highlight">📦 <strong>Dropbox:</strong> Làm video demo 3 phút giả vờ sản phẩm đã xong. Đăng ký tăng từ 5,000 → <strong>75,000 người qua đêm</strong>.</div>
-            <div className="example-highlight">📱 <strong>Buffer:</strong> Tạo landing page &quot;đang xây dựng&quot; + nút pricing → nếu click = có nhu cầu. Thu hút đủ sign-ups trước khi viết dòng code nào.</div>
-            <BufferDemo />
+            <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowBuffer(true)}}>
+              📱 <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 Buffer (BẤM ĐỂ XEM DEMO):</strong> Tạo landing page &quot;đang xây dựng&quot; + nút pricing → nếu click = có nhu cầu. Thu hút đủ sign-ups trước khi viết dòng code nào.
+            </div>
           </Accordion>
         </Slide>
 
@@ -391,6 +393,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {showBuffer && <BufferDemo onClose={() => setShowBuffer(false)} />}
     </>
   );
 }
@@ -454,132 +457,190 @@ function ModelCard({ tag, isNew, icon, name, desc }: { tag: string; isNew?: bool
   );
 }
 
-function BufferDemo() {
+function BufferDemo({ onClose }: { onClose: () => void }) {
   const [phase, setPhase] = useState(0); // 0=idle, 1=cursor moving, 2=clicked, 3=signup shown
 
   useEffect(() => {
     if (phase === 0) {
-      const t = setTimeout(() => setPhase(1), 800);
+      const t = setTimeout(() => setPhase(1), 1000);
       return () => clearTimeout(t);
     }
     if (phase === 1) {
-      const t = setTimeout(() => setPhase(2), 1500);
+      const t = setTimeout(() => setPhase(2), 2000);
       return () => clearTimeout(t);
     }
     if (phase === 2) {
-      const t = setTimeout(() => setPhase(3), 600);
+      const t = setTimeout(() => setPhase(3), 800);
       return () => clearTimeout(t);
     }
     if (phase === 3) {
-      const t = setTimeout(() => setPhase(0), 3500);
+      const t = setTimeout(() => setPhase(0), 4000);
       return () => clearTimeout(t);
     }
   }, [phase]);
 
+  // Close on Escape
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
   return (
-    <div style={{marginTop:14,position:"relative"}}>
-      <p style={{fontSize:".78rem",color:"#aaa",marginBottom:8,textAlign:"center"}}>👇 Demo animation — xem cách Buffer validate ý tưởng</p>
-      <div style={{
-        background:"linear-gradient(135deg,#1a1a2e,#16213e)",
-        borderRadius:12,border:"1px solid rgba(108,92,231,.3)",
-        padding:0,overflow:"hidden",position:"relative",height:220
+    <div onClick={onClose} style={{
+      position:"fixed",top:0,left:0,width:"100vw",height:"100vh",
+      background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+      zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",
+      animation:"bufferFadeIn .3s ease"
+    }}>
+      <div onClick={e=>e.stopPropagation()} style={{
+        width:"min(700px, 90vw)",
+        background:"linear-gradient(145deg,#0f0f23,#1a1a3e)",
+        borderRadius:18,border:"1px solid rgba(108,92,231,.4)",
+        overflow:"hidden",position:"relative",
+        boxShadow:"0 25px 60px rgba(0,0,0,.5), 0 0 80px rgba(108,92,231,.15)",
+        animation:"bufferSlideUp .4s ease"
       }}>
-        {/* Browser bar */}
-        <div style={{background:"rgba(0,0,0,.3)",padding:"6px 12px",display:"flex",alignItems:"center",gap:6}}>
-          <div style={{width:8,height:8,borderRadius:"50%",background:"#e17055"}}/>
-          <div style={{width:8,height:8,borderRadius:"50%",background:"#FDCB6E"}}/>
-          <div style={{width:8,height:8,borderRadius:"50%",background:"#00B894"}}/>
-          <div style={{flex:1,background:"rgba(255,255,255,.08)",borderRadius:4,padding:"2px 10px",fontSize:".65rem",color:"#888",marginLeft:8}}>bufferapp.com</div>
+        {/* Close button */}
+        <button onClick={onClose} style={{
+          position:"absolute",top:12,right:16,zIndex:10,
+          background:"rgba(255,255,255,.1)",border:"none",borderRadius:"50%",
+          width:32,height:32,cursor:"pointer",color:"#fff",fontSize:"1rem",
+          display:"flex",alignItems:"center",justifyContent:"center",
+          transition:"background .2s"
+        }}>✕</button>
+
+        {/* Demo label */}
+        <div style={{
+          background:"linear-gradient(90deg,rgba(108,92,231,.2),rgba(0,184,148,.1))",
+          padding:"10px 20px",fontSize:".75rem",color:"#aaa",textAlign:"center",
+          borderBottom:"1px solid rgba(255,255,255,.06)"
+        }}>
+          🎬 <strong style={{color:"#FDCB6E"}}>DEMO:</strong> Cách Buffer validate ý tưởng — chưa viết 1 dòng code!
         </div>
 
-        {/* Page content */}
-        <div style={{padding:"20px 24px",textAlign:"center"}}>
-          <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff",marginBottom:4}}>Buffer</div>
-          <div style={{fontSize:".72rem",color:"#aaa",marginBottom:14}}>A smarter way to share on social media</div>
+        {/* Browser chrome */}
+        <div style={{background:"rgba(0,0,0,.4)",padding:"10px 16px",display:"flex",alignItems:"center",gap:8}}>
+          <div style={{width:12,height:12,borderRadius:"50%",background:"#e17055"}}/>
+          <div style={{width:12,height:12,borderRadius:"50%",background:"#FDCB6E"}}/>
+          <div style={{width:12,height:12,borderRadius:"50%",background:"#00B894"}}/>
+          <div style={{flex:1,background:"rgba(255,255,255,.08)",borderRadius:6,padding:"5px 14px",fontSize:".8rem",color:"#888",marginLeft:10}}>
+            🔒 https://bufferapp.com
+          </div>
+        </div>
+
+        {/* Landing page content */}
+        <div style={{padding:"40px 30px 50px",textAlign:"center",position:"relative",minHeight:280}}>
+          <div style={{fontSize:"2rem",fontWeight:900,color:"#fff",marginBottom:6,letterSpacing:"-1px"}}>Buffer</div>
+          <div style={{fontSize:".95rem",color:"#aaa",marginBottom:28}}>A smarter way to share on social media</div>
 
           {phase < 2 ? (
             <>
               <div style={{
                 display:"inline-block",
-                padding:"8px 22px",fontSize:".78rem",fontWeight:700,
+                padding:"14px 36px",fontSize:"1.05rem",fontWeight:800,
                 background: phase === 1 ? "linear-gradient(135deg,#6C5CE7,#a29bfe)" : "linear-gradient(135deg,#00B894,#55efc4)",
-                color:"#fff",borderRadius:8,
-                transform: phase === 1 ? "scale(1.08)" : "scale(1)",
-                boxShadow: phase === 1 ? "0 0 20px rgba(108,92,231,.5)" : "none",
-                transition:"all .4s ease"
+                color:"#fff",borderRadius:12,cursor:"pointer",
+                transform: phase === 1 ? "scale(1.1)" : "scale(1)",
+                boxShadow: phase === 1 ? "0 0 30px rgba(108,92,231,.6), 0 8px 24px rgba(108,92,231,.3)" : "0 4px 15px rgba(0,184,148,.3)",
+                transition:"all .5s cubic-bezier(.4,0,.2,1)"
               }}>
                 💰 See Plans & Pricing
               </div>
-              <div style={{fontSize:".65rem",color:"#666",marginTop:10}}>Sản phẩm chưa có — chỉ test nhu cầu!</div>
+              <div style={{fontSize:".8rem",color:"#555",marginTop:16}}>
+                ⚠️ Sản phẩm chưa có — Joel chỉ tạo trang giả này để test nhu cầu!
+              </div>
+              {phase === 0 && (
+                <div style={{fontSize:".75rem",color:"#666",marginTop:6,animation:"bufferPulse 2s ease infinite"}}>
+                  🖱️ Đợi... con chuột sắp click...
+                </div>
+              )}
             </>
           ) : (
-            <div style={{
-              animation:"fadeInUp .4s ease",
-            }}>
+            <div style={{animation:"bufferFadeInUp .5s ease"}}>
               <div style={{
-                background:"rgba(0,184,148,.1)",border:"1px solid rgba(0,184,148,.3)",
-                borderRadius:10,padding:"12px 20px",display:"inline-block",textAlign:"left"
+                background:"rgba(0,184,148,.08)",border:"2px solid rgba(0,184,148,.3)",
+                borderRadius:14,padding:"24px 30px",display:"inline-block",textAlign:"left",
+                maxWidth:420
               }}>
-                <div style={{fontSize:".82rem",fontWeight:700,color:"#00B894",marginBottom:6}}>✅ Có người click xem giá!</div>
-                <div style={{fontSize:".72rem",color:"#aaa",marginBottom:8}}>→ Nhu cầu THẬT. Giờ hiện form đăng ký:</div>
-                <div style={{display:"flex",gap:6,alignItems:"center"}}>
-                  <input type="text" placeholder="Email của bạn..." readOnly style={{
-                    background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.15)",
-                    borderRadius:6,padding:"5px 10px",fontSize:".7rem",color:"#fff",width:160,outline:"none"
+                <div style={{fontSize:"1.1rem",fontWeight:800,color:"#00B894",marginBottom:10}}>
+                  ✅ Có người click xem giá!
+                </div>
+                <div style={{fontSize:".85rem",color:"#aaa",marginBottom:14}}>
+                  → Nhu cầu <strong style={{color:"#fff"}}>CÓ THẬT</strong>. Hiện form đăng ký:
+                </div>
+                <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                  <input type="text" placeholder="you@email.com" readOnly style={{
+                    background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.2)",
+                    borderRadius:8,padding:"10px 14px",fontSize:".85rem",color:"#fff",
+                    flex:1,outline:"none"
                   }}/>
                   <div style={{
-                    padding:"5px 14px",fontSize:".7rem",fontWeight:700,
+                    padding:"10px 20px",fontSize:".85rem",fontWeight:800,
                     background:"linear-gradient(135deg,#00B894,#55efc4)",
-                    color:"#fff",borderRadius:6,whiteSpace:"nowrap"
+                    color:"#fff",borderRadius:8,whiteSpace:"nowrap",cursor:"pointer"
                   }}>Đăng ký!</div>
                 </div>
                 {phase === 3 && (
-                  <div style={{marginTop:8,fontSize:".7rem",color:"#FDCB6E",animation:"fadeInUp .3s ease"}}>
-                    📊 Đã có <strong style={{color:"#fff"}}>847 người</strong> đăng ký — chưa viết 1 dòng code!
+                  <div style={{
+                    marginTop:14,padding:"10px 14px",
+                    background:"rgba(253,203,110,.08)",border:"1px solid rgba(253,203,110,.2)",
+                    borderRadius:8,animation:"bufferFadeInUp .4s ease"
+                  }}>
+                    <div style={{fontSize:".9rem",color:"#FDCB6E",fontWeight:700}}>
+                      📊 Kết quả sau 1 tuần:
+                    </div>
+                    <div style={{fontSize:"1.4rem",fontWeight:900,color:"#fff",margin:"4px 0"}}>
+                      847 người đăng ký
+                    </div>
+                    <div style={{fontSize:".78rem",color:"#aaa"}}>
+                      👉 Chưa viết 1 dòng code mà đã biết có khách! → Bắt đầu code.
+                    </div>
                   </div>
                 )}
               </div>
             </div>
           )}
-        </div>
 
-        {/* Animated cursor */}
-        {phase === 1 && (
-          <div style={{
-            position:"absolute",
-            width:20,height:20,
-            animation:"cursorMove 1.5s ease forwards",
-            zIndex:10,pointerEvents:"none",
-            filter:"drop-shadow(0 2px 4px rgba(0,0,0,.5))"
-          }}>
-            <svg viewBox="0 0 24 24" fill="#fff" width="20" height="20">
-              <path d="M4 0L4 20L9 15L14 22L17 20L12 13L19 13Z"/>
-            </svg>
-          </div>
-        )}
-        {phase === 2 && (
-          <div style={{
-            position:"absolute",top:"50%",left:"50%",
-            transform:"translate(-50%,-50%)",
-            width:40,height:40,borderRadius:"50%",
-            background:"rgba(108,92,231,.3)",
-            animation:"clickRipple .5s ease forwards",
-            pointerEvents:"none"
-          }}/>
-        )}
+          {/* Animated cursor */}
+          {phase === 1 && (
+            <div style={{
+              position:"absolute",
+              width:28,height:28,
+              animation:"bufferCursor 2s ease forwards",
+              zIndex:10,pointerEvents:"none",
+              filter:"drop-shadow(0 3px 6px rgba(0,0,0,.6))"
+            }}>
+              <svg viewBox="0 0 24 24" fill="#fff" width="28" height="28">
+                <path d="M4 0L4 20L9 15L14 22L17 20L12 13L19 13Z"/>
+              </svg>
+            </div>
+          )}
+          {phase === 2 && (
+            <div style={{
+              position:"absolute",top:"45%",left:"50%",
+              transform:"translate(-50%,-50%)",
+              width:10,height:10,borderRadius:"50%",
+              background:"rgba(108,92,231,.4)",
+              animation:"bufferRipple .6s ease forwards",
+              pointerEvents:"none"
+            }}/>
+          )}
+        </div>
       </div>
       <style>{`
-        @keyframes cursorMove {
-          0% { top: 170px; left: 80px; }
-          100% { top: 105px; left: calc(50% - 10px); }
+        @keyframes bufferFadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes bufferSlideUp { from{opacity:0;transform:translateY(30px) scale(.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+        @keyframes bufferFadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes bufferPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+        @keyframes bufferCursor {
+          0% { top: 240px; left: 100px; }
+          70% { top: 140px; left: calc(50% - 5px); }
+          100% { top: 130px; left: calc(50% - 5px); }
         }
-        @keyframes clickRipple {
+        @keyframes bufferRipple {
           0% { width:10px;height:10px;opacity:1; }
-          100% { width:60px;height:60px;opacity:0; }
-        }
-        @keyframes fadeInUp {
-          0% { opacity:0; transform:translateY(10px); }
-          100% { opacity:1; transform:translateY(0); }
+          100% { width:80px;height:80px;opacity:0; }
         }
       `}</style>
     </div>
