@@ -11,6 +11,9 @@ export default function Home() {
   const [showIncubator, setShowIncubator] = useState(false);
   const totalSlides = 23;
 
+  // 8 transition effects — each slide gets a different one
+  const fxTypes = ['zoom','fly-up','flip','scatter','rotate','curtain','bounce','swing'];
+
   const goTo = useCallback(
     (n: number) => {
       if (n < 0 || n >= totalSlides || n === current) return;
@@ -20,11 +23,16 @@ export default function Home() {
       const next = slides[n];
       if (!prev || !next) return;
 
+      // Remove old fx
+      slides.forEach(s => (s as HTMLElement).removeAttribute('data-fx'));
+
       prev.classList.remove("active");
       prev.classList.add(dir === 1 ? "exit-left" : "exit-right");
 
       next.classList.remove("exit-left", "exit-right", "enter-left", "enter-right");
       next.classList.add(dir === 1 ? "enter-right" : "enter-left");
+      // Assign unique transition effect based on target slide
+      (next as HTMLElement).setAttribute('data-fx', fxTypes[n % fxTypes.length]);
       void (next as HTMLElement).offsetWidth;
       next.classList.remove("enter-left", "enter-right");
       next.classList.add("active");
