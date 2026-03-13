@@ -7,6 +7,7 @@ export default function Home() {
   const [showZappos, setShowZappos] = useState(false);
   const [showDropbox, setShowDropbox] = useState(false);
   const [showEquity, setShowEquity] = useState(false);
+  const [showOnePager, setShowOnePager] = useState(false);
   const totalSlides = 23;
 
   const goTo = useCallback(
@@ -331,13 +332,14 @@ export default function Home() {
         <Slide i={16} c={current} label="SECTION 7 • FUNDRAISING" color="#FDCB6E">
           <h2>Business Plans &amp; One Pagers</h2>
           <TwoCol
-            left={<><div className="col-icon" style={{background:"linear-gradient(135deg,#dfe6e9,#b2bec3)"}}><i className="fas fa-file-alt" /></div><h3>Business Plan (~50-60 trang)</h3><ul><li>Ai sở hữu? Làm gì? Thị trường? Mô hình?</li><li>Ngân hàng &amp; institutional investors yêu cầu</li><li>⚠️ <strong>Quá dài &amp; thường sai</strong></li></ul></>}
-            right={<><div className="col-icon" style={{background:"linear-gradient(135deg,#00B894,#55efc4)"}}><i className="fas fa-file-invoice" /></div><h3>One Pager ✨</h3><ul><li>&quot;Hình thức hiện đại&quot;</li><li>NĐT rất bận → <strong>tối đa info, tối thiểu time</strong></li><li>Nội dung: Key facts, market size, ask</li></ul></>}
+            left={<><div className="col-icon" style={{background:"linear-gradient(135deg,#dfe6e9,#b2bec3)"}}><i className="fas fa-file-alt" /></div><h3>📕 Business Plan</h3><ul><li>Tài liệu <strong>50-60 trang</strong> chi tiết</li><li>Mô tả toàn bộ: ownership, thị trường, tài chính...</li><li>Ngân hàng &amp; quỹ lớn bắt buộc phải có</li><li>⚠️ <strong>Viết rất lâu &amp; dự đoán thường sai</strong></li></ul></>}
+            right={<><div className="col-icon" style={{background:"linear-gradient(135deg,#00B894,#55efc4)"}}><i className="fas fa-file-invoice" /></div><h3>📄 One Pager ✨</h3><ul><li>Tóm tắt <strong>1 trang duy nhất</strong></li><li>NĐT xem <strong>hàng trăm startup/tuần</strong> → không ai đọc 60 trang</li><li>Gồm 8 mục cốt lõi: ai, cần gì, thị trường, lợi thế</li><li>✅ <strong>Xu hướng hiện đại, hiệu quả hơn</strong></li></ul></>}
           />
-          <Accordion title="🔍 One Pager nên có gì? Chi tiết 8 mục">
-            <p><strong>1.</strong> Ai sở hữu công ty? <strong>2.</strong> Cần bao nhiêu tiền? <strong>3.</strong> Đã có bao nhiêu vốn? <strong>4.</strong> Key facts</p>
-            <p><strong>5.</strong> Chiến lược marketing <strong>6.</strong> Quy mô thị trường <strong>7.</strong> Lợi thế cạnh tranh <strong>8.</strong> Dự kiến doanh thu</p>
-            <p>💡 <strong>Tip:</strong> Luôn chuẩn bị cả Business Plan lẫn One Pager!</p>
+          <Accordion title="🔍 So sánh trực quan: Business Plan vs One Pager">
+            <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowOnePager(true)}}>
+              📋 <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 BẤM ĐỂ XEM DEMO:</strong> Xem so sánh trực quan — 60 trang vs 1 trang. NĐT thích cái nào hơn?
+            </div>
+            <p>💡 <strong>Tip:</strong> Luôn chuẩn bị cả hai! Business Plan cho ngân hàng, One Pager cho NĐT Angel/VC.</p>
           </Accordion>
         </Slide>
 
@@ -412,6 +414,7 @@ export default function Home() {
       {showZappos && <ZapposDemo onClose={() => setShowZappos(false)} />}
       {showDropbox && <DropboxDemo onClose={() => setShowDropbox(false)} />}
       {showEquity && <EquityDebtDemo onClose={() => setShowEquity(false)} />}
+      {showOnePager && <OnePagerDemo onClose={() => setShowOnePager(false)} />}
     </>
   );
 }
@@ -1139,6 +1142,152 @@ function EquityDebtDemo({ onClose }: { onClose: () => void }) {
 
         {/* Progress */}
         <DemoNav step={step} total={5} setStep={setStep} onClose={onClose} labels={["Setup","Đầu tư","Thành công","Thất bại","Tóm tắt"]} />
+      </div>
+    </div>
+  );
+}
+
+function OnePagerDemo({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState(0);
+
+  const items = [
+    { icon: "👥", label: "Ai sở hữu?", desc: "Founders, % cổ phần" },
+    { icon: "💰", label: "Cần bao nhiêu?", desc: "Số tiền gọi vốn" },
+    { icon: "🏦", label: "Đã có bao nhiêu?", desc: "Vốn tự có / đã gọi" },
+    { icon: "⭐", label: "Key Facts", desc: "Traction, users, revenue" },
+    { icon: "📢", label: "Marketing", desc: "Kênh tiếp cận KH" },
+    { icon: "🌍", label: "Quy mô thị trường", desc: "TAM / SAM / SOM" },
+    { icon: "🛡️", label: "Lợi thế cạnh tranh", desc: "Vì sao bạn thắng?" },
+    { icon: "📈", label: "Dự kiến doanh thu", desc: "12-36 tháng tới" },
+  ];
+
+  return (
+    <div onClick={onClose} style={{
+      position:"fixed",top:0,left:0,width:"100vw",height:"100vh",
+      background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+      zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",
+      animation:"bufferFadeIn .3s ease"
+    }}>
+      <div onClick={e=>e.stopPropagation()} style={{
+        width:"min(750px, 92vw)",
+        background:"linear-gradient(145deg,#0f0f23,#1a1a3e)",
+        borderRadius:18,border:"1px solid rgba(0,184,148,.3)",
+        overflow:"hidden",position:"relative",
+        boxShadow:"0 25px 60px rgba(0,0,0,.5), 0 0 80px rgba(0,184,148,.1)",
+        animation:"bufferSlideUp .4s ease"
+      }}>
+        <button onClick={onClose} style={{
+          position:"absolute",top:12,right:16,zIndex:10,
+          background:"rgba(255,255,255,.1)",border:"none",borderRadius:"50%",
+          width:32,height:32,cursor:"pointer",color:"#fff",fontSize:"1rem",
+          display:"flex",alignItems:"center",justifyContent:"center"
+        }}>✕</button>
+
+        <div style={{background:"linear-gradient(90deg,rgba(0,184,148,.15),rgba(108,92,231,.1))",padding:"10px 20px",fontSize:".75rem",color:"#aaa",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,.06)"}}>
+          📋 <strong style={{color:"#FDCB6E"}}>DEMO:</strong> Business Plan vs One Pager — Tại sao NĐT thích One Pager hơn?
+        </div>
+
+        <div style={{padding:"24px 24px 12px"}}>
+          <div key={step} style={{animation:"bufferFadeInUp .4s ease"}}>
+
+            {step === 0 && (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:"3rem",marginBottom:8}}>😩</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:6}}>Một ngày trong đời NĐT (Nhà Đầu Tư)</div>
+                <div style={{fontSize:".88rem",color:"#aaa",marginBottom:16}}>Mỗi tuần nhận <strong style={{color:"#E17055"}}>100+ hồ sơ startup</strong>. Thời gian đọc mỗi hồ sơ?</div>
+                <div style={{display:"flex",gap:20,justifyContent:"center",alignItems:"center"}}>
+                  <div style={{textAlign:"center",padding:"16px 24px",background:"rgba(225,112,85,.08)",border:"2px solid rgba(225,112,85,.3)",borderRadius:14}}>
+                    <div style={{fontSize:"2.5rem"}}>📚</div>
+                    <div style={{fontSize:"1.5rem",fontWeight:900,color:"#E17055"}}>60 trang</div>
+                    <div style={{fontSize:".72rem",color:"#aaa"}}>Mỗi business plan</div>
+                  </div>
+                  <div style={{fontSize:"1.5rem",color:"#888"}}>×</div>
+                  <div style={{textAlign:"center",padding:"16px 24px",background:"rgba(225,112,85,.08)",border:"2px solid rgba(225,112,85,.3)",borderRadius:14}}>
+                    <div style={{fontSize:"2.5rem"}}>💯</div>
+                    <div style={{fontSize:"1.5rem",fontWeight:900,color:"#E17055"}}>100 hồ sơ</div>
+                    <div style={{fontSize:".72rem",color:"#aaa"}}>Mỗi tuần</div>
+                  </div>
+                  <div style={{fontSize:"1.5rem",color:"#888"}}>=</div>
+                  <div style={{textAlign:"center",padding:"16px 24px",background:"rgba(225,112,85,.15)",border:"2px solid rgba(225,112,85,.4)",borderRadius:14}}>
+                    <div style={{fontSize:"2.5rem"}}>💀</div>
+                    <div style={{fontSize:"1.5rem",fontWeight:900,color:"#E17055"}}>6,000 trang!</div>
+                    <div style={{fontSize:".72rem",color:"#aaa"}}>Không ai đọc nổi</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {step === 1 && (
+              <div>
+                <div style={{textAlign:"center",marginBottom:16}}>
+                  <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff"}}>NĐT nhận được 2 hồ sơ. Bạn là NĐT — bạn chọn đọc cái nào?</div>
+                </div>
+                <div style={{display:"flex",gap:16}}>
+                  <div style={{flex:1,background:"rgba(225,112,85,.06)",border:"2px solid rgba(225,112,85,.25)",borderRadius:14,padding:"18px 16px",textAlign:"center"}}>
+                    <div style={{fontSize:"2.5rem",marginBottom:6}}>📕</div>
+                    <div style={{fontSize:"1rem",fontWeight:800,color:"#E17055",marginBottom:8}}>Business Plan</div>
+                    <div style={{display:"flex",flexDirection:"column",gap:4,fontSize:".72rem",color:"#aaa",textAlign:"left",padding:"0 8px"}}>
+                      <div>📄 Trang 1-10: Giới thiệu công ty...</div>
+                      <div>📄 Trang 11-25: Phân tích thị trường...</div>
+                      <div>📄 Trang 26-40: Mô hình tài chính...</div>
+                      <div>📄 Trang 41-60: Chiến lược, rủi ro...</div>
+                    </div>
+                    <div style={{marginTop:12,padding:"6px 12px",background:"rgba(225,112,85,.15)",borderRadius:8}}>
+                      <div style={{fontSize:".78rem",color:"#E17055",fontWeight:700}}>😴 3-4 giờ để đọc xong</div>
+                      <div style={{fontSize:".65rem",color:"#888"}}>NĐT bỏ qua sau trang 3</div>
+                    </div>
+                  </div>
+                  <div style={{flex:1,background:"rgba(0,184,148,.06)",border:"2px solid rgba(0,184,148,.25)",borderRadius:14,padding:"18px 16px",textAlign:"center"}}>
+                    <div style={{fontSize:"2.5rem",marginBottom:6}}>📄</div>
+                    <div style={{fontSize:"1rem",fontWeight:800,color:"#00B894",marginBottom:8}}>One Pager ✨</div>
+                    <div style={{background:"rgba(0,184,148,.08)",borderRadius:10,padding:12,textAlign:"left",fontSize:".72rem",color:"#aaa"}}>
+                      <div style={{fontWeight:700,color:"#00B894",marginBottom:4}}>🚀 FoodTech - Đặt ăn AI</div>
+                      <div>👥 2 founders, 60% CEO</div>
+                      <div>💰 Gọi $500K, đã có $100K</div>
+                      <div>📊 TAM $2B, 5000 users</div>
+                      <div>📢 TikTok + Referral</div>
+                      <div>🛡️ AI recommend riêng</div>
+                      <div>📈 $50K MRR trong 12 tháng</div>
+                    </div>
+                    <div style={{marginTop:12,padding:"6px 12px",background:"rgba(0,184,148,.15)",borderRadius:8}}>
+                      <div style={{fontSize:".78rem",color:"#00B894",fontWeight:700}}>⚡ 2 phút là nắm hết!</div>
+                      <div style={{fontSize:".65rem",color:"#888"}}>NĐT đọc xong → hẹn gặp ngay</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && (
+              <div>
+                <div style={{textAlign:"center",marginBottom:14}}>
+                  <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff"}}>📋 8 mục CẦN CÓ trong One Pager</div>
+                  <div style={{fontSize:".82rem",color:"#aaa"}}>Mỗi mục = 1-2 dòng. Tổng cộng vừa đúng 1 trang A4!</div>
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+                  {items.map((item, i) => (
+                    <div key={i} style={{
+                      display:"flex",gap:10,alignItems:"center",
+                      background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.08)",
+                      borderRadius:10,padding:"10px 14px"
+                    }}>
+                      <div style={{fontSize:"1.5rem",minWidth:30,textAlign:"center"}}>{item.icon}</div>
+                      <div>
+                        <div style={{fontSize:".78rem",fontWeight:700,color:"#FDCB6E"}}>{i+1}. {item.label}</div>
+                        <div style={{fontSize:".68rem",color:"#888"}}>{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{textAlign:"center",marginTop:12,fontSize:".78rem",color:"#00B894",fontWeight:700}}>
+                  💡 Chuẩn bị cả hai: Business Plan cho ngân hàng, One Pager cho Angel/VC!
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <DemoNav step={step} total={3} setStep={setStep} onClose={onClose} labels={["Vấn đề","So sánh","8 mục cần có"]} />
       </div>
     </div>
   );
