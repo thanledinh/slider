@@ -518,8 +518,18 @@ function DemoNav({ step, total, setStep, onClose, labels }: { step: number; tota
 }
 
 function BufferDemo({ onClose }: { onClose: () => void }) {
-  const [phase, setPhase] = useState(0); // 0=landing, 1=cursor hover, 2=clicked, 3=signup shown
+  const [step, setStep] = useState(0); // 0=landing page, 1=cursor clicks, 2=signup result
+  const [cursorPhase, setCursorPhase] = useState(0); // 0=start, 1=moving, 2=click ripple
 
+  // Auto-animate cursor ONLY on step 1
+  useEffect(() => {
+    if (step === 1) {
+      setCursorPhase(0);
+      const t1 = setTimeout(() => setCursorPhase(1), 300);
+      const t2 = setTimeout(() => setCursorPhase(2), 2300);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
+    }
+  }, [step]);
 
   return (
     <div onClick={onClose} style={{
@@ -565,19 +575,19 @@ function BufferDemo({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Landing page content */}
-        <div style={{padding:"40px 30px 50px",textAlign:"center",position:"relative",minHeight:280}}>
+        <div style={{padding:"40px 30px 30px",textAlign:"center",position:"relative",minHeight:260}}>
           <div style={{fontSize:"2rem",fontWeight:900,color:"#fff",marginBottom:6,letterSpacing:"-1px"}}>Buffer</div>
           <div style={{fontSize:".95rem",color:"#aaa",marginBottom:28}}>A smarter way to share on social media</div>
 
-          {phase < 2 ? (
+          {step <= 1 ? (
             <>
               <div style={{
                 display:"inline-block",
                 padding:"14px 36px",fontSize:"1.05rem",fontWeight:800,
-                background: phase === 1 ? "linear-gradient(135deg,#6C5CE7,#a29bfe)" : "linear-gradient(135deg,#00B894,#55efc4)",
+                background: (step === 1 && cursorPhase >= 1) ? "linear-gradient(135deg,#6C5CE7,#a29bfe)" : "linear-gradient(135deg,#00B894,#55efc4)",
                 color:"#fff",borderRadius:12,cursor:"pointer",
-                transform: phase === 1 ? "scale(1.1)" : "scale(1)",
-                boxShadow: phase === 1 ? "0 0 30px rgba(108,92,231,.6), 0 8px 24px rgba(108,92,231,.3)" : "0 4px 15px rgba(0,184,148,.3)",
+                transform: (step === 1 && cursorPhase >= 1) ? "scale(1.1)" : "scale(1)",
+                boxShadow: (step === 1 && cursorPhase >= 1) ? "0 0 30px rgba(108,92,231,.6), 0 8px 24px rgba(108,92,231,.3)" : "0 4px 15px rgba(0,184,148,.3)",
                 transition:"all .5s cubic-bezier(.4,0,.2,1)"
               }}>
                 💰 See Plans & Pricing
@@ -585,9 +595,9 @@ function BufferDemo({ onClose }: { onClose: () => void }) {
               <div style={{fontSize:".8rem",color:"#555",marginTop:16}}>
                 ⚠️ Sản phẩm chưa có — Joel chỉ tạo trang giả này để test nhu cầu!
               </div>
-              {phase === 0 && (
-                <div style={{fontSize:".75rem",color:"#666",marginTop:6,animation:"bufferPulse 2s ease infinite"}}>
-                  🖱️ Đợi... con chuột sắp click...
+              {step === 0 && (
+                <div style={{fontSize:".75rem",color:"#666",marginTop:6}}>
+                  👆 Bấm <strong style={{color:"#FDCB6E"}}>&quot;Tiếp&quot;</strong> để xem con chuột click!
                 </div>
               )}
             </>
@@ -616,29 +626,27 @@ function BufferDemo({ onClose }: { onClose: () => void }) {
                     color:"#fff",borderRadius:8,whiteSpace:"nowrap",cursor:"pointer"
                   }}>Đăng ký!</div>
                 </div>
-                {phase === 3 && (
-                  <div style={{
-                    marginTop:14,padding:"10px 14px",
-                    background:"rgba(253,203,110,.08)",border:"1px solid rgba(253,203,110,.2)",
-                    borderRadius:8,animation:"bufferFadeInUp .4s ease"
-                  }}>
-                    <div style={{fontSize:".9rem",color:"#FDCB6E",fontWeight:700}}>
-                      📊 Kết quả sau 1 tuần:
-                    </div>
-                    <div style={{fontSize:"1.4rem",fontWeight:900,color:"#fff",margin:"4px 0"}}>
-                      847 người đăng ký
-                    </div>
-                    <div style={{fontSize:".78rem",color:"#aaa"}}>
-                      👉 Chưa viết 1 dòng code mà đã biết có khách! → Bắt đầu code.
-                    </div>
+                <div style={{
+                  marginTop:14,padding:"10px 14px",
+                  background:"rgba(253,203,110,.08)",border:"1px solid rgba(253,203,110,.2)",
+                  borderRadius:8,animation:"bufferFadeInUp .4s ease"
+                }}>
+                  <div style={{fontSize:".9rem",color:"#FDCB6E",fontWeight:700}}>
+                    📊 Kết quả sau 1 tuần:
                   </div>
-                )}
+                  <div style={{fontSize:"1.4rem",fontWeight:900,color:"#fff",margin:"4px 0"}}>
+                    847 người đăng ký
+                  </div>
+                  <div style={{fontSize:".78rem",color:"#aaa"}}>
+                    👉 Chưa viết 1 dòng code mà đã biết có khách! → Bắt đầu code.
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Animated cursor */}
-          {phase === 1 && (
+          {/* Animated cursor - only on step 1 */}
+          {step === 1 && cursorPhase === 1 && (
             <div style={{
               position:"absolute",
               width:28,height:28,
@@ -651,7 +659,7 @@ function BufferDemo({ onClose }: { onClose: () => void }) {
               </svg>
             </div>
           )}
-          {phase === 2 && (
+          {step === 1 && cursorPhase === 2 && (
             <div style={{
               position:"absolute",top:"45%",left:"50%",
               transform:"translate(-50%,-50%)",
@@ -662,6 +670,8 @@ function BufferDemo({ onClose }: { onClose: () => void }) {
             }}/>
           )}
         </div>
+
+        <DemoNav step={step} total={3} setStep={setStep} onClose={onClose} labels={["Landing page","Click!","Đăng ký"]} />
       </div>
       <style>{`
         @keyframes bufferFadeIn { from{opacity:0} to{opacity:1} }
