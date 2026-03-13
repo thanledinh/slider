@@ -31,7 +31,7 @@ export default function Home() {
 
       setTimeout(() => {
         prev.classList.remove("exit-left", "exit-right");
-      }, 600);
+      }, 700);
 
       setCurrent(n);
     },
