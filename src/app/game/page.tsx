@@ -82,19 +82,61 @@ export default function GamePage() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioCtx = useRef<AudioContext | null>(null);
 
-  const playBeep = useCallback((freq: number, dur: number) => {
-    try {
-      if (!audioCtx.current) audioCtx.current = new AudioContext();
-      const osc = audioCtx.current.createOscillator();
-      const gain = audioCtx.current.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.current.destination);
-      osc.frequency.value = freq;
-      gain.gain.value = 0.1;
-      osc.start();
-      setTimeout(() => osc.stop(), dur);
-    } catch {}
+  const getCtx = useCallback(() => {
+    if (!audioCtx.current) audioCtx.current = new AudioContext();
+    return audioCtx.current;
   }, []);
+
+  const playTone = useCallback((freq: number, dur: number, vol = 0.1, type: OscillatorType = "sine") => {
+    try {
+      const ctx = getCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(vol, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + dur / 1000);
+    } catch {}
+  }, [getCtx]);
+
+  const playBoom = useCallback(() => {
+    try {
+      const ctx = getCtx();
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(150, ctx.currentTime);
+      osc1.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.5);
+      gain1.gain.setValueAtTime(0.35, ctx.currentTime);
+      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+      osc1.connect(gain1); gain1.connect(ctx.destination);
+      osc1.start(); osc1.stop(ctx.currentTime + 0.6);
+      const bufSz = ctx.sampleRate * 0.3;
+      const buf = ctx.createBuffer(1, bufSz, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < bufSz; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / bufSz);
+      const ns = ctx.createBufferSource(); ns.buffer = buf;
+      const ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.12, ctx.currentTime);
+      ng.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      ns.connect(ng); ng.connect(ctx.destination); ns.start();
+    } catch {}
+  }, [getCtx]);
+
+  const playFanfare = useCallback(() => {
+    [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 300, 0.12, "triangle"), i * 100));
+  }, [playTone]);
+
+  const playBuzz = useCallback(() => {
+    playTone(200, 400, 0.15, "sawtooth");
+    setTimeout(() => playTone(150, 400, 0.1, "sawtooth"), 150);
+  }, [playTone]);
+
+  const playVictory = useCallback(() => {
+    [523, 659, 784, 1047, 1319].forEach((f, i) => setTimeout(() => playTone(f, 400, 0.1, "triangle"), i * 120));
+  }, [playTone]);
 
   const startCountdown = useCallback(() => {
     setPhase("countdown");
@@ -107,11 +149,11 @@ export default function GamePage() {
           setPhase("vote");
           return 0;
         }
-        if (t <= 4) playBeep(800, 100);
+        if (t <= 4) playTone(800, 80, 0.08);
         return t - 1;
       });
     }, 1000);
-  }, [playBeep]);
+  }, [playTone]);
 
   useEffect(() => {
     return () => {
@@ -138,13 +180,14 @@ export default function GamePage() {
       else if (v === false && startup.success) newScores[i] -= 100;
     });
     setScores(newScores);
-    playBeep(startup.success ? 523 : 200, 300);
+    if (startup.success) playFanfare(); else playBuzz();
     setPhase("reveal");
   };
 
   const nextRound = () => {
     if (round >= STARTUPS.length - 1) {
       setPhase("final");
+      playVictory();
       return;
     }
     setRound((r) => r + 1);
@@ -203,7 +246,7 @@ export default function GamePage() {
       {/* SPLASH — cinematic title slam */}
       {phase === "splash" && (
         <div
-          onClick={() => setPhase("intro")}
+          onClick={() => { playBoom(); setPhase("intro"); }}
           style={{
             textAlign: "center", cursor: "pointer",
             position: "absolute", inset: 0,
