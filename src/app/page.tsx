@@ -8,6 +8,7 @@ export default function Home() {
   const [showDropbox, setShowDropbox] = useState(false);
   const [showEquity, setShowEquity] = useState(false);
   const [showOnePager, setShowOnePager] = useState(false);
+  const [showIncubator, setShowIncubator] = useState(false);
   const totalSlides = 23;
 
   const goTo = useCallback(
@@ -318,14 +319,15 @@ export default function Home() {
         {/* 16: Incubators */}
         <Slide i={15} c={current} label="SECTION 7 • FUNDRAISING" color="#FDCB6E">
           <h2>Incubators — Vườn ươm khởi nghiệp</h2>
-          <div className="incubator-info">
-            <div className="incubator-main"><ul><li>Đổi <strong>5-7% equity</strong> → nhận <strong>$15,000 - $25,000</strong></li><li>Mentorship, networking, pháp lý miễn phí</li><li>~400 incubators tại Mỹ, chương trình ~3 tháng</li><li>Có thể <strong>nộp đi nộp lại</strong> đến khi được chấp nhận</li></ul></div>
-            <div className="top-incubators"><h3>🏆 Top Incubators</h3><div className="incubator-logos">
-              <div className="incubator-badge"><strong>Y Combinator</strong><br/><small>Airbnb, Dropbox, Reddit</small></div>
-              <div className="incubator-badge"><strong>Techstars</strong><br/><small>Đầu tư lớn nhất</small></div>
-              <div className="incubator-badge"><strong>500 Startups</strong><br/><small>Alumni thành công nhất</small></div>
-            </div></div>
-          </div>
+          <TwoCol
+            left={<><div className="col-icon" style={{background:"linear-gradient(135deg,#E17055,#fab1a0)"}}><i className="fas fa-hand-holding-usd" /></div><h3>🎯 Bạn đưa:</h3><ul><li><strong>5-7% cổ phần</strong> công ty</li><li>3 tháng làm việc cực kỳ chuyên chú</li><li>Chấp nhận được dạy và thay đổi</li></ul></>}
+            right={<><div className="col-icon" style={{background:"linear-gradient(135deg,#00B894,#55efc4)"}}><i className="fas fa-gift" /></div><h3>🎁 Bạn nhận:</h3><ul><li><strong>$15K-$500K</strong> vốn đầu tư</li><li>Mentor 1-1 từ founders thành công</li><li>Mạng lưới NĐT + luật sư free</li><li><strong>Demo Day</strong> — pitch trước 500+ NĐT</li></ul></>}
+          />
+          <Accordion title="🌱 Xem Incubator hoạt động như thế nào?">
+            <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowIncubator(true)}}>
+              🏢 <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 BẤM ĐỂ XEM DEMO:</strong> Hành trình 3 tháng trong incubator + Y Combinator có gì đặc biệt?
+            </div>
+          </Accordion>
         </Slide>
 
         {/* 17: Plans & One Pagers */}
@@ -415,6 +417,7 @@ export default function Home() {
       {showDropbox && <DropboxDemo onClose={() => setShowDropbox(false)} />}
       {showEquity && <EquityDebtDemo onClose={() => setShowEquity(false)} />}
       {showOnePager && <OnePagerDemo onClose={() => setShowOnePager(false)} />}
+      {showIncubator && <IncubatorDemo onClose={() => setShowIncubator(false)} />}
     </>
   );
 }
@@ -1298,6 +1301,170 @@ function OnePagerDemo({ onClose }: { onClose: () => void }) {
         </div>
 
         <DemoNav step={step} total={3} setStep={setStep} onClose={onClose} labels={["Vấn đề","So sánh","8 mục cần có"]} />
+      </div>
+    </div>
+  );
+}
+
+function IncubatorDemo({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState(0);
+
+  return (
+    <div onClick={onClose} style={{
+      position:"fixed",top:0,left:0,width:"100vw",height:"100vh",
+      background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+      zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",
+      animation:"bufferFadeIn .3s ease"
+    }}>
+      <div onClick={e=>e.stopPropagation()} style={{
+        width:"min(750px, 92vw)",
+        background:"linear-gradient(145deg,#0f0f23,#1a1a3e)",
+        borderRadius:18,border:"1px solid rgba(0,184,148,.3)",
+        overflow:"hidden",position:"relative",
+        boxShadow:"0 25px 60px rgba(0,0,0,.5), 0 0 80px rgba(0,184,148,.1)",
+        animation:"bufferSlideUp .4s ease"
+      }}>
+        <button onClick={onClose} style={{
+          position:"absolute",top:12,right:16,zIndex:10,
+          background:"rgba(255,255,255,.1)",border:"none",borderRadius:"50%",
+          width:32,height:32,cursor:"pointer",color:"#fff",fontSize:"1rem",
+          display:"flex",alignItems:"center",justifyContent:"center"
+        }}>✕</button>
+
+        <div style={{background:"linear-gradient(90deg,rgba(0,184,148,.15),rgba(253,203,110,.1))",padding:"10px 20px",fontSize:".75rem",color:"#aaa",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,.06)"}}>
+          🌱 <strong style={{color:"#FDCB6E"}}>DEMO:</strong> Incubator hoạt động như thế nào?
+        </div>
+
+        <div style={{padding:"24px 24px 12px"}}>
+          <div key={step} style={{animation:"bufferFadeInUp .4s ease"}}>
+
+            {step === 0 && (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:"3rem",marginBottom:8}}>😓</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:6}}>Bạn có ý tưởng tốt, nhưng thiếu...</div>
+                <div style={{display:"flex",gap:12,justifyContent:"center",marginTop:16,flexWrap:"wrap"}}>
+                  {[
+                    {icon:"💰",label:"Tiền ($0)",color:"#E17055"},
+                    {icon:"🧑‍🏫",label:"Người hướng dẫn",color:"#6C5CE7"},
+                    {icon:"🤝",label:"Mạng lưới NĐT",color:"#FDCB6E"},
+                    {icon:"⚖️",label:"Luật sư, kế toán",color:"#0984e3"},
+                  ].map((item, i) => (
+                    <div key={i} style={{padding:"14px 18px",background:"rgba(225,112,85,.06)",border:"2px solid rgba(225,112,85,.2)",borderRadius:12,textAlign:"center",minWidth:120}}>
+                      <div style={{fontSize:"1.8rem"}}>{item.icon}</div>
+                      <div style={{fontSize:".78rem",fontWeight:700,color:item.color,marginTop:4}}>{item.label}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{marginTop:16,fontSize:".85rem",color:"#aaa"}}>
+                  → Incubator sẽ <strong style={{color:"#00B894"}}>cho bạn tất cả</strong>, đổi lại chỉ cần một thứ...
+                </div>
+              </div>
+            )}
+
+            {step === 1 && (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff",marginBottom:14}}>🤝 Thỏa thuận: Bạn đưa gì? Nhận gì?</div>
+                <div style={{display:"flex",gap:16,alignItems:"stretch"}}>
+                  <div style={{flex:1,background:"rgba(225,112,85,.06)",border:"2px solid rgba(225,112,85,.2)",borderRadius:14,padding:"16px",textAlign:"center"}}>
+                    <div style={{fontSize:"1.5rem",marginBottom:6}}>🎯</div>
+                    <div style={{fontSize:".85rem",fontWeight:800,color:"#E17055",marginBottom:8}}>BẠN ĐƯA</div>
+                    <div style={{fontSize:"2rem",fontWeight:900,color:"#fff"}}>7%</div>
+                    <div style={{fontSize:".78rem",color:"#aaa"}}>cổ phần công ty</div>
+                    <div style={{marginTop:8,fontSize:".68rem",color:"#888",fontStyle:"italic"}}>
+                      Nếu công ty trị giá $10M<br/>= bạn &quot;trả&quot; $700K
+                    </div>
+                  </div>
+                  <div style={{display:"flex",alignItems:"center",fontSize:"2rem",color:"#00B894"}}>⇄</div>
+                  <div style={{flex:1.3,background:"rgba(0,184,148,.06)",border:"2px solid rgba(0,184,148,.2)",borderRadius:14,padding:"16px",textAlign:"left"}}>
+                    <div style={{textAlign:"center",fontSize:"1.5rem",marginBottom:6}}>🎁</div>
+                    <div style={{textAlign:"center",fontSize:".85rem",fontWeight:800,color:"#00B894",marginBottom:10}}>BẠN NHẬN</div>
+                    {[
+                      {icon:"💵",text:"$15K - $500K tiền mặt"},
+                      {icon:"🧑‍🏫",text:"Mentor 1-1 từ CEO thành công"},
+                      {icon:"👥",text:"Mạng lưới 500+ NĐT"},
+                      {icon:"⚖️",text:"Luật sư + kế toán miễn phí"},
+                      {icon:"🎤",text:"Demo Day: pitch trước NĐT"},
+                    ].map((item, i) => (
+                      <div key={i} style={{display:"flex",gap:8,alignItems:"center",marginBottom:6}}>
+                        <span style={{fontSize:"1rem"}}>{item.icon}</span>
+                        <span style={{fontSize:".75rem",color:"#aaa"}}>{item.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && (
+              <div>
+                <div style={{textAlign:"center",marginBottom:14}}>
+                  <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff"}}>🏆 Y Combinator — Incubator #1 thế giới</div>
+                </div>
+                <div style={{display:"flex",gap:12,marginBottom:14}}>
+                  {[
+                    {num:"1.5%",label:"Tỉ lệ nhận",sub:"Khó hơn Harvard (4.6%)!",color:"#E17055"},
+                    {num:"$600B+",label:"Tổng giá trị alumni",sub:"Tất cả startup cũ cộng lại",color:"#00B894"},
+                    {num:"4,000+",label:"Startups đã ươm",sub:"Từ 2005 đến nay",color:"#FDCB6E"},
+                  ].map((item, i) => (
+                    <div key={i} style={{flex:1,background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,padding:"12px",textAlign:"center"}}>
+                      <div style={{fontSize:"1.3rem",fontWeight:900,color:item.color}}>{item.num}</div>
+                      <div style={{fontSize:".72rem",fontWeight:700,color:"#fff",marginTop:2}}>{item.label}</div>
+                      <div style={{fontSize:".62rem",color:"#666",marginTop:2}}>{item.sub}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{fontSize:".78rem",fontWeight:700,color:"#aaa",marginBottom:8}}>🌟 Alumni nổi tiếng:</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+                  {[
+                    {name:"Airbnb",val:"$75B",story:"Từ nệm hơi → khách sạn toàn cầu"},
+                    {name:"Dropbox",val:"$10B",story:"Từ video demo 3 phút"},
+                    {name:"Reddit",val:"$10B",story:"2 founder, YC batch đầu tiên"},
+                    {name:"Stripe",val:"$50B",story:"2 anh em Ireland"},
+                    {name:"Coinbase",val:"$15B",story:"Sàn crypto #1 Mỹ"},
+                    {name:"DoorDash",val:"$25B",story:"Giao đồ ăn Stanford"},
+                  ].map((item, i) => (
+                    <div key={i} style={{background:"rgba(253,203,110,.04)",border:"1px solid rgba(253,203,110,.1)",borderRadius:8,padding:"8px 10px"}}>
+                      <div style={{fontSize:".75rem",fontWeight:800,color:"#FDCB6E"}}>{item.name} <span style={{color:"#00B894"}}>{item.val}</span></div>
+                      <div style={{fontSize:".6rem",color:"#666"}}>{item.story}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div>
+                <div style={{textAlign:"center",marginBottom:14}}>
+                  <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff"}}>📅 Hành trình 3 tháng trong Incubator</div>
+                </div>
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {[
+                    {week:"Tháng 1",icon:"📝",title:"Nộp đơn & được nhận",desc:"Gửi hồ sơ → phỏng vấn 10 phút → vào chương trình. Nhận $125K-$500K.",color:"#6C5CE7"},
+                    {week:"Tháng 1-2",icon:"🔨",title:"Build & Iterate",desc:"Mentor dạy 1-1 mỗi tuần. Thay đổi sản phẩm dựa trên feedback thật.",color:"#E17055"},
+                    {week:"Tháng 2-3",icon:"📊",title:"Tìm Product-Market Fit",desc:"Test với khách hàng thật. Mỗi tuần báo cáo KPIs. Pivot nếu cần.",color:"#FDCB6E"},
+                    {week:"Tháng 3",icon:"🎤",title:"Demo Day!",desc:"Pitch 2 phút trước 500+ NĐT. Nhiều startup gọi được $1-5M ngay tại chỗ!",color:"#00B894"},
+                  ].map((item, i) => (
+                    <div key={i} style={{display:"flex",gap:12,alignItems:"center",background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)",borderRadius:10,padding:"10px 14px"}}>
+                      <div style={{fontSize:"1.5rem",minWidth:30}}>{item.icon}</div>
+                      <div style={{flex:1}}>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                          <div style={{fontSize:".78rem",fontWeight:700,color:item.color}}>{item.title}</div>
+                          <div style={{fontSize:".6rem",color:"#666",background:"rgba(255,255,255,.05)",padding:"2px 8px",borderRadius:6}}>{item.week}</div>
+                        </div>
+                        <div style={{fontSize:".68rem",color:"#888",marginTop:2}}>{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{textAlign:"center",marginTop:10,fontSize:".75rem",color:"#00B894",fontWeight:700}}>
+                  💡 Nộp đi nộp lại được! Thất bại → apply lại batch sau.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <DemoNav step={step} total={4} setStep={setStep} onClose={onClose} labels={["Vấn đề","Thỏa thuận","Y Combinator","3 tháng"]} />
       </div>
     </div>
   );
