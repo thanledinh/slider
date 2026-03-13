@@ -6,6 +6,7 @@ export default function Home() {
   const [showBuffer, setShowBuffer] = useState(false);
   const [showZappos, setShowZappos] = useState(false);
   const [showDropbox, setShowDropbox] = useState(false);
+  const [showEquity, setShowEquity] = useState(false);
   const totalSlides = 23;
 
   const goTo = useCallback(
@@ -291,6 +292,11 @@ export default function Home() {
             left={<><div className="col-icon" style={{background:"linear-gradient(135deg,#6C5CE7,#a29bfe)"}}><i className="fas fa-user-astronaut" /></div><h3>Angel Investors</h3><ul><li>Tìm: <strong>AngelList, Wefunding, FundersClub</strong></li><li>Angel groups &amp; syndicates</li><li>Ưu tiên angels đầu tư thường xuyên</li></ul></>}
             right={<><div className="col-icon" style={{background:"linear-gradient(135deg,#00B894,#55efc4)"}}><i className="fas fa-balance-scale" /></div><h3>Equity vs Debt</h3><ul><li><strong>Equity</strong> = sở hữu cổ phần. Không cần trả nếu thất bại</li><li><strong>Debt</strong> = vay nợ. Phải trả dù thất bại!</li><li><strong>Dividends</strong> = chia lợi nhuận theo % sở hữu</li></ul></>}
           />
+          <Accordion title="🔍 Equity vs Debt — So sánh trực quan">
+            <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowEquity(true)}}>
+              ⚖️ <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 BẤM ĐỂ XEM DEMO:</strong> Xem ngay kịch bản đầu tư $100K — chuyện gì xảy ra khi startup THÀNH CÔNG vs THẤT BẠI?
+            </div>
+          </Accordion>
         </Slide>
 
         {/* 15: VC & Loans */}
@@ -405,6 +411,7 @@ export default function Home() {
       {showBuffer && <BufferDemo onClose={() => setShowBuffer(false)} />}
       {showZappos && <ZapposDemo onClose={() => setShowZappos(false)} />}
       {showDropbox && <DropboxDemo onClose={() => setShowDropbox(false)} />}
+      {showEquity && <EquityDebtDemo onClose={() => setShowEquity(false)} />}
     </>
   );
 }
@@ -972,6 +979,219 @@ function DropboxDemo({ onClose }: { onClose: () => void }) {
 
         <div style={{padding:"10px 20px 16px",textAlign:"center",fontSize:".72rem",color:"#666"}}>
           Bước {step + 1} / 5 • Auto-replay
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EquityDebtDemo({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState(0);
+  // 0=setup, 1=both invest, 2=success scenario, 3=fail scenario, 4=summary
+
+  useEffect(() => {
+    const delays = [1500, 2000, 3000, 3000, 4000];
+    if (step < 4) {
+      const t = setTimeout(() => setStep(s => s + 1), delays[step]);
+      return () => clearTimeout(t);
+    }
+    if (step === 4) {
+      const t = setTimeout(() => setStep(0), delays[4]);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const Card = ({ bg, border, children }: { bg: string; border: string; children: React.ReactNode }) => (
+    <div style={{
+      flex:1, background: bg, border: `2px solid ${border}`,
+      borderRadius: 14, padding: "18px 16px", textAlign: "center"
+    }}>{children}</div>
+  );
+
+  return (
+    <div onClick={onClose} style={{
+      position:"fixed",top:0,left:0,width:"100vw",height:"100vh",
+      background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+      zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",
+      animation:"bufferFadeIn .3s ease"
+    }}>
+      <div onClick={e=>e.stopPropagation()} style={{
+        width:"min(750px, 92vw)",
+        background:"linear-gradient(145deg,#0f0f23,#1a1a3e)",
+        borderRadius:18,border:"1px solid rgba(253,203,110,.3)",
+        overflow:"hidden",position:"relative",
+        boxShadow:"0 25px 60px rgba(0,0,0,.5), 0 0 80px rgba(253,203,110,.1)",
+        animation:"bufferSlideUp .4s ease"
+      }}>
+        <button onClick={onClose} style={{
+          position:"absolute",top:12,right:16,zIndex:10,
+          background:"rgba(255,255,255,.1)",border:"none",borderRadius:"50%",
+          width:32,height:32,cursor:"pointer",color:"#fff",fontSize:"1rem",
+          display:"flex",alignItems:"center",justifyContent:"center"
+        }}>✕</button>
+
+        <div style={{background:"linear-gradient(90deg,rgba(108,92,231,.2),rgba(0,184,148,.1))",padding:"10px 20px",fontSize:".75rem",color:"#aaa",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,.06)"}}>
+          ⚖️ <strong style={{color:"#FDCB6E"}}>DEMO:</strong> Equity vs Debt — Cùng đầu tư $100K, kết quả KHÁC NHAU!
+        </div>
+
+        <div style={{padding:"24px 24px 20px"}}>
+          <div key={step} style={{animation:"bufferFadeInUp .4s ease"}}>
+
+            {step === 0 && (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:"3rem",marginBottom:8}}>🤝</div>
+                <div style={{fontSize:"1.3rem",fontWeight:800,color:"#fff",marginBottom:6}}>Kịch bản: Bạn cần $100,000 cho startup</div>
+                <div style={{fontSize:".9rem",color:"#aaa",marginBottom:20}}>Có 2 cách huy động — xem chuyện gì xảy ra!</div>
+                <div style={{display:"flex",gap:16,justifyContent:"center"}}>
+                  <Card bg="rgba(108,92,231,.08)" border="rgba(108,92,231,.3)">
+                    <div style={{fontSize:"2rem"}}>📊</div>
+                    <div style={{fontSize:"1rem",fontWeight:800,color:"#6C5CE7",margin:"6px 0"}}>EQUITY</div>
+                    <div style={{fontSize:".78rem",color:"#aaa"}}>Bán 10% cổ phần<br/>NĐT sở hữu 10% công ty</div>
+                  </Card>
+                  <Card bg="rgba(225,112,85,.08)" border="rgba(225,112,85,.3)">
+                    <div style={{fontSize:"2rem"}}>🏦</div>
+                    <div style={{fontSize:"1rem",fontWeight:800,color:"#E17055",margin:"6px 0"}}>DEBT</div>
+                    <div style={{fontSize:".78rem",color:"#aaa"}}>Vay $100K, lãi 10%/năm<br/>Phải trả $110K sau 1 năm</div>
+                  </Card>
+                </div>
+              </div>
+            )}
+
+            {step === 1 && (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:"2.5rem",marginBottom:8}}>💰</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:6}}>Cả hai đều cho bạn $100,000</div>
+                <div style={{fontSize:".85rem",color:"#aaa",marginBottom:16}}>Bạn build startup... 1 năm sau...</div>
+                <div style={{display:"flex",gap:20,justifyContent:"center",alignItems:"center"}}>
+                  <div style={{textAlign:"center",animation:"bufferPulse 1.5s ease infinite"}}>
+                    <div style={{fontSize:"3rem"}}>🚀</div>
+                    <div style={{fontSize:".85rem",fontWeight:700,color:"#00B894",marginTop:4}}>Thành công?</div>
+                    <div style={{fontSize:".72rem",color:"#888"}}>Công ty trị giá $10M</div>
+                  </div>
+                  <div style={{fontSize:"1.5rem",color:"#888"}}>hay</div>
+                  <div style={{textAlign:"center",animation:"bufferPulse 1.5s ease infinite"}}>
+                    <div style={{fontSize:"3rem"}}>💥</div>
+                    <div style={{fontSize:".85rem",fontWeight:700,color:"#E17055",marginTop:4}}>Thất bại?</div>
+                    <div style={{fontSize:".72rem",color:"#888"}}>Công ty phá sản</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && (
+              <div>
+                <div style={{textAlign:"center",marginBottom:16}}>
+                  <span style={{fontSize:"1.5rem"}}>🚀</span>
+                  <span style={{fontSize:"1.1rem",fontWeight:800,color:"#00B894",marginLeft:8}}>KỊCH BẢN 1: THÀNH CÔNG — Công ty trị giá $10,000,000</span>
+                </div>
+                <div style={{display:"flex",gap:16}}>
+                  <Card bg="rgba(108,92,231,.08)" border="rgba(108,92,231,.3)">
+                    <div style={{fontSize:".78rem",fontWeight:700,color:"#6C5CE7",marginBottom:8}}>📊 EQUITY (bán 10%)</div>
+                    <div style={{fontSize:".78rem",color:"#aaa",marginBottom:4}}>NĐT sở hữu 10% × $10M =</div>
+                    <div style={{fontSize:"1.8rem",fontWeight:900,color:"#00B894"}}>$1,000,000</div>
+                    <div style={{fontSize:".72rem",color:"#aaa",marginTop:4}}>Lời <strong style={{color:"#00B894"}}>900%</strong> 🤑</div>
+                    <div style={{marginTop:8,background:"rgba(255,255,255,.05)",borderRadius:8,padding:8}}>
+                      <div style={{fontSize:".72rem",color:"#aaa"}}>Bạn giữ 90%:</div>
+                      <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff"}}>$9,000,000</div>
+                    </div>
+                  </Card>
+                  <Card bg="rgba(225,112,85,.08)" border="rgba(225,112,85,.3)">
+                    <div style={{fontSize:".78rem",fontWeight:700,color:"#E17055",marginBottom:8}}>🏦 DEBT (vay $100K)</div>
+                    <div style={{fontSize:".78rem",color:"#aaa",marginBottom:4}}>Trả lại gốc + lãi =</div>
+                    <div style={{fontSize:"1.8rem",fontWeight:900,color:"#FDCB6E"}}>$110,000</div>
+                    <div style={{fontSize:".72rem",color:"#aaa",marginTop:4}}>Lời chỉ <strong style={{color:"#FDCB6E"}}>10%</strong></div>
+                    <div style={{marginTop:8,background:"rgba(255,255,255,.05)",borderRadius:8,padding:8}}>
+                      <div style={{fontSize:".72rem",color:"#aaa"}}>Bạn giữ:</div>
+                      <div style={{fontSize:"1.1rem",fontWeight:800,color:"#fff"}}>$9,890,000</div>
+                    </div>
+                  </Card>
+                </div>
+                <div style={{textAlign:"center",marginTop:12,fontSize:".78rem",color:"#00B894",fontWeight:700}}>
+                  ✅ Thành công: Debt có lợi hơn cho Founder! (giữ nhiều hơn $890K)
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div>
+                <div style={{textAlign:"center",marginBottom:16}}>
+                  <span style={{fontSize:"1.5rem"}}>💥</span>
+                  <span style={{fontSize:"1.1rem",fontWeight:800,color:"#E17055",marginLeft:8}}>KỊCH BẢN 2: THẤT BẠI — Công ty phá sản, $0</span>
+                </div>
+                <div style={{display:"flex",gap:16}}>
+                  <Card bg="rgba(108,92,231,.08)" border="rgba(108,92,231,.3)">
+                    <div style={{fontSize:".78rem",fontWeight:700,color:"#6C5CE7",marginBottom:8}}>📊 EQUITY</div>
+                    <div style={{fontSize:".78rem",color:"#aaa",marginBottom:4}}>NĐT mất $100K nhưng...</div>
+                    <div style={{fontSize:"1.3rem",fontWeight:900,color:"#00B894",margin:"8px 0"}}>BẠN NỢ: $0</div>
+                    <div style={{fontSize:".78rem",color:"#aaa"}}>Equity = chia sẻ rủi ro.<br/>Thất bại thì cùng mất!</div>
+                    <div style={{marginTop:8,background:"rgba(0,184,148,.1)",borderRadius:8,padding:"6px 10px"}}>
+                      <div style={{fontSize:".78rem",color:"#00B894",fontWeight:700}}>😌 Bạn có thể đứng dậy làm lại</div>
+                    </div>
+                  </Card>
+                  <Card bg="rgba(225,112,85,.08)" border="rgba(225,112,85,.3)">
+                    <div style={{fontSize:".78rem",fontWeight:700,color:"#E17055",marginBottom:8}}>🏦 DEBT</div>
+                    <div style={{fontSize:".78rem",color:"#aaa",marginBottom:4}}>Công ty chết nhưng...</div>
+                    <div style={{fontSize:"1.3rem",fontWeight:900,color:"#E17055",margin:"8px 0"}}>VẪN NỢ: $110,000</div>
+                    <div style={{fontSize:".78rem",color:"#aaa"}}>Debt = bạn chịu hết rủi ro.<br/>Phá sản vẫn phải trả!</div>
+                    <div style={{marginTop:8,background:"rgba(225,112,85,.1)",borderRadius:8,padding:"6px 10px"}}>
+                      <div style={{fontSize:".78rem",color:"#E17055",fontWeight:700}}>😰 Nợ đè, khó khởi nghiệp lại</div>
+                    </div>
+                  </Card>
+                </div>
+                <div style={{textAlign:"center",marginTop:12,fontSize:".78rem",color:"#E17055",fontWeight:700}}>
+                  ⚠️ Thất bại: Equity an toàn hơn cho Founder!
+                </div>
+              </div>
+            )}
+
+            {step === 4 && (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:"2.5rem",marginBottom:8}}>💡</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:14}}>Tóm tắt: Khi nào dùng gì?</div>
+                <div style={{display:"flex",gap:16}}>
+                  <Card bg="rgba(108,92,231,.08)" border="rgba(108,92,231,.3)">
+                    <div style={{fontSize:"1.3rem",fontWeight:800,color:"#6C5CE7",marginBottom:6}}>📊 Equity</div>
+                    <div style={{fontSize:".78rem",color:"#aaa",lineHeight:1.6}}>
+                      ✅ An toàn khi thất bại<br/>
+                      ✅ NĐT giúp mentoring<br/>
+                      ❌ Mất quyền kiểm soát<br/>
+                      ❌ Chia lợi nhuận mãi mãi
+                    </div>
+                    <div style={{marginTop:8,fontSize:".72rem",fontWeight:700,color:"#6C5CE7"}}>→ Startup rủi ro cao</div>
+                  </Card>
+                  <Card bg="rgba(225,112,85,.08)" border="rgba(225,112,85,.3)">
+                    <div style={{fontSize:"1.3rem",fontWeight:800,color:"#E17055",marginBottom:6}}>🏦 Debt</div>
+                    <div style={{fontSize:".78rem",color:"#aaa",lineHeight:1.6}}>
+                      ✅ Giữ 100% ownership<br/>
+                      ✅ Trả xong là hết<br/>
+                      ❌ Phải trả dù thất bại<br/>
+                      ❌ Cần có tài sản đảm bảo
+                    </div>
+                    <div style={{marginTop:8,fontSize:".72rem",fontWeight:700,color:"#E17055"}}>→ Business ổn định, có cash flow</div>
+                  </Card>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Progress */}
+        <div style={{display:"flex",justifyContent:"center",gap:6,padding:"8px 0 14px"}}>
+          {["Setup","Đầu tư","Thành công","Thất bại","Tóm tắt"].map((label, i) => (
+            <div key={i} style={{
+              padding:"3px 10px",borderRadius:12,fontSize:".65rem",fontWeight:600,
+              background: i === step ? "rgba(253,203,110,.2)" : "rgba(255,255,255,.05)",
+              color: i === step ? "#FDCB6E" : "#666",
+              border: i === step ? "1px solid rgba(253,203,110,.3)" : "1px solid transparent",
+              transition:"all .3s"
+            }}>{label}</div>
+          ))}
         </div>
       </div>
     </div>
