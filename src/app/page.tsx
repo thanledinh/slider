@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [showBuffer, setShowBuffer] = useState(false);
+  const [showZappos, setShowZappos] = useState(false);
+  const [showDropbox, setShowDropbox] = useState(false);
   const totalSlides = 23;
 
   const goTo = useCallback(
@@ -251,8 +253,12 @@ export default function Home() {
             right={<><div className="col-icon" style={{background:"linear-gradient(135deg,#E17055,#fab1a0)"}}><i className="fas fa-rocket" /></div><h3>MVP — Minimum Viable Product</h3><ul><li>95% entrepreneurs dùng phương pháp này</li><li><strong>Nỗ lực tối thiểu</strong> để xác định KH muốn mua</li><li>Nếu không ai trả tiền → ý tưởng không ổn</li></ul></>}
           />
           <Accordion title="🔍 Ví dụ MVP nổi tiếng: Zappos, Dropbox, Buffer">
-            <div className="example-highlight">👟 <strong>Zappos:</strong> Chụp ảnh giày từ cửa hàng, đăng lên web. Khi có đơn → đi mua rồi ship. Chứng minh: người ta muốn mua giày online! → Bán cho Amazon <strong>$1.2 tỷ</strong>.</div>
-            <div className="example-highlight">📦 <strong>Dropbox:</strong> Làm video demo 3 phút giả vờ sản phẩm đã xong. Đăng ký tăng từ 5,000 → <strong>75,000 người qua đêm</strong>.</div>
+            <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowZappos(true)}}>
+              👟 <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 Zappos (BẤM ĐỂ XEM DEMO):</strong> Chụp ảnh giày từ cửa hàng, đăng lên web. Khi có đơn → đi mua rồi ship. Chứng minh: người ta muốn mua giày online! → Bán cho Amazon <strong>$1.2 tỷ</strong>.
+            </div>
+            <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowDropbox(true)}}>
+              📦 <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 Dropbox (BẤM ĐỂ XEM DEMO):</strong> Làm video demo 3 phút giả vờ sản phẩm đã xong. Đăng ký tăng từ 5,000 → <strong>75,000 người qua đêm</strong>.
+            </div>
             <div className="example-highlight" style={{cursor:"pointer",transition:"all .2s"}} onClick={(e)=>{e.stopPropagation();setShowBuffer(true)}}>
               📱 <strong style={{color:"#FDCB6E",textDecoration:"underline",textDecorationStyle:"dotted"}}>👆 Buffer (BẤM ĐỂ XEM DEMO):</strong> Tạo landing page &quot;đang xây dựng&quot; + nút pricing → nếu click = có nhu cầu. Thu hút đủ sign-ups trước khi viết dòng code nào.
             </div>
@@ -394,6 +400,8 @@ export default function Home() {
         </div>
       </div>
       {showBuffer && <BufferDemo onClose={() => setShowBuffer(false)} />}
+      {showZappos && <ZapposDemo onClose={() => setShowZappos(false)} />}
+      {showDropbox && <DropboxDemo onClose={() => setShowDropbox(false)} />}
     </>
   );
 }
@@ -643,6 +651,326 @@ function BufferDemo({ onClose }: { onClose: () => void }) {
           100% { width:80px;height:80px;opacity:0; }
         }
       `}</style>
+    </div>
+  );
+}
+
+function ZapposDemo({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState(0);
+  // 0=shoe store, 1=camera flash, 2=website with shoes, 3=order notification, 4=nick runs to store, 5=ship + amazon
+
+  useEffect(() => {
+    const delays = [1200, 1200, 1500, 1500, 1500, 4000];
+    if (step < 5) {
+      const t = setTimeout(() => setStep(s => s + 1), delays[step]);
+      return () => clearTimeout(t);
+    }
+    if (step === 5) {
+      const t = setTimeout(() => setStep(0), delays[5]);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const steps = [
+    { emoji: "🏪", title: "Nick đi vào tiệm giày", desc: "Không có tiền xây website + kho hàng ($500K)", color: "#6C5CE7" },
+    { emoji: "📸", title: "Chụp ảnh giày trên kệ!", desc: "Chi phí: $0 — chỉ cần điện thoại", color: "#FDCB6E" },
+    { emoji: "🌐", title: "Đăng ảnh lên website đơn giản", desc: "Web xấu, ảnh không đẹp, nhưng ĐỦ ĐỂ TEST", color: "#0984e3" },
+    { emoji: "🔔", title: "CÓ NGƯỜI ĐẶT MUA!", desc: "Khách hàng thật sự muốn mua giày online!", color: "#00B894" },
+    { emoji: "🏃", title: "Nick chạy ra tiệm mua giày → tự ship!", desc: "Chấp nhận LỖ tiền ship → mua BẰng chứng", color: "#E17055" },
+    { emoji: "🏆", title: "Giả thuyết ĐÚNG → Xây hệ thống thật", desc: "Amazon mua lại $1.2 TỶ năm 2009", color: "#00B894" },
+  ];
+
+  const cur = steps[step];
+
+  return (
+    <div onClick={onClose} style={{
+      position:"fixed",top:0,left:0,width:"100vw",height:"100vh",
+      background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+      zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",
+      animation:"bufferFadeIn .3s ease"
+    }}>
+      <div onClick={e=>e.stopPropagation()} style={{
+        width:"min(680px, 90vw)",
+        background:"linear-gradient(145deg,#0f0f23,#1a1a3e)",
+        borderRadius:18,border:"1px solid rgba(108,92,231,.4)",
+        overflow:"hidden",position:"relative",
+        boxShadow:"0 25px 60px rgba(0,0,0,.5), 0 0 80px rgba(108,92,231,.15)",
+        animation:"bufferSlideUp .4s ease"
+      }}>
+        <button onClick={onClose} style={{
+          position:"absolute",top:12,right:16,zIndex:10,
+          background:"rgba(255,255,255,.1)",border:"none",borderRadius:"50%",
+          width:32,height:32,cursor:"pointer",color:"#fff",fontSize:"1rem",
+          display:"flex",alignItems:"center",justifyContent:"center"
+        }}>✕</button>
+
+        <div style={{background:"linear-gradient(90deg,rgba(108,92,231,.2),rgba(0,184,148,.1))",padding:"10px 20px",fontSize:".75rem",color:"#aaa",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,.06)"}}>
+          👟 <strong style={{color:"#FDCB6E"}}>DEMO ZAPPOS:</strong> Cách Nick Swinmurn validate ý tưởng bán giày online — MVP đỉnh cao!
+        </div>
+
+        <div style={{padding:"30px 30px 20px",textAlign:"center"}}>
+          {/* Progress dots */}
+          <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:20}}>
+            {steps.map((s, i) => (
+              <div key={i} style={{
+                width: i === step ? 28 : 10, height:10, borderRadius:5,
+                background: i <= step ? s.color : "rgba(255,255,255,.1)",
+                transition:"all .4s ease"
+              }}/>
+            ))}
+          </div>
+
+          {/* Main content */}
+          <div key={step} style={{animation:"bufferFadeInUp .4s ease"}}>
+            <div style={{fontSize:"3.5rem",marginBottom:10}}>{cur.emoji}</div>
+            <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:8}}>{cur.title}</div>
+            <div style={{fontSize:".9rem",color:"#aaa",marginBottom:16}}>{cur.desc}</div>
+
+            {step <= 2 && (
+              <div style={{
+                display:"inline-flex",gap:12,alignItems:"center",
+                background:"rgba(255,255,255,.05)",borderRadius:12,padding:"14px 20px"
+              }}>
+                <div style={{fontSize:".78rem",color:"#888"}}>Chi phí MVP:</div>
+                <div style={{fontSize:"1.5rem",fontWeight:900,color:"#00B894"}}>≈ $0</div>
+                <div style={{fontSize:".78rem",color:"#888"}}>vs truyền thống:</div>
+                <div style={{fontSize:"1.1rem",fontWeight:700,color:"#e17055",textDecoration:"line-through"}}>$500,000</div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div style={{
+                display:"inline-block",padding:"12px 24px",
+                background:"rgba(0,184,148,.1)",border:"2px solid rgba(0,184,148,.3)",
+                borderRadius:12,animation:"bufferPulse 1s ease infinite"
+              }}>
+                <span style={{fontSize:"1.3rem"}}>🛒</span>
+                <span style={{color:"#00B894",fontWeight:800,marginLeft:8,fontSize:"1rem"}}>1 đơn hàng mới!</span>
+              </div>
+            )}
+
+            {step === 4 && (
+              <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:16}}>
+                <div style={{textAlign:"center"}}>
+                  <div style={{fontSize:"2rem"}}>🏪</div>
+                  <div style={{fontSize:".7rem",color:"#888"}}>Tiệm giày</div>
+                </div>
+                <div style={{fontSize:"1.5rem",color:"#E17055",animation:"bufferPulse 0.5s ease infinite"}}>→ 🏃 →</div>
+                <div style={{textAlign:"center"}}>
+                  <div style={{fontSize:"2rem"}}>👟</div>
+                  <div style={{fontSize:".7rem",color:"#888"}}>Mua giày</div>
+                </div>
+                <div style={{fontSize:"1.5rem",color:"#E17055",animation:"bufferPulse 0.5s ease infinite"}}>→ 📦 →</div>
+                <div style={{textAlign:"center"}}>
+                  <div style={{fontSize:"2rem"}}>📬</div>
+                  <div style={{fontSize:".7rem",color:"#888"}}>Ship khách</div>
+                </div>
+              </div>
+            )}
+
+            {step === 5 && (
+              <div style={{
+                display:"inline-block",padding:"16px 28px",
+                background:"rgba(0,184,148,.08)",border:"2px solid rgba(0,184,148,.3)",
+                borderRadius:14
+              }}>
+                <div style={{fontSize:"2.2rem",fontWeight:900,color:"#00B894"}}>$1,200,000,000</div>
+                <div style={{fontSize:".85rem",color:"#aaa",marginTop:4}}>Amazon mua lại Zappos — từ ảnh chụp giày trên kệ! 🎉</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{padding:"10px 20px 16px",textAlign:"center",fontSize:".72rem",color:"#666"}}>
+          Bước {step + 1} / 6 • Auto-replay
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DropboxDemo({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState(0);
+  // 0=problem, 1=video playing, 2=posted to HN, 3=signups counting, 4=result
+
+  useEffect(() => {
+    const delays = [1500, 2000, 1500, 2500, 4000];
+    if (step < 4) {
+      const t = setTimeout(() => setStep(s => s + 1), delays[step]);
+      return () => clearTimeout(t);
+    }
+    if (step === 4) {
+      const t = setTimeout(() => setStep(0), delays[4]);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const [count, setCount] = useState(5000);
+  useEffect(() => {
+    if (step === 3) {
+      setCount(5000);
+      const interval = setInterval(() => {
+        setCount(c => {
+          if (c >= 75000) { clearInterval(interval); return 75000; }
+          return c + Math.floor(Math.random() * 3000) + 1500;
+        });
+      }, 120);
+      return () => clearInterval(interval);
+    }
+  }, [step]);
+
+  return (
+    <div onClick={onClose} style={{
+      position:"fixed",top:0,left:0,width:"100vw",height:"100vh",
+      background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+      zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",
+      animation:"bufferFadeIn .3s ease"
+    }}>
+      <div onClick={e=>e.stopPropagation()} style={{
+        width:"min(680px, 90vw)",
+        background:"linear-gradient(145deg,#0f0f23,#1a1a3e)",
+        borderRadius:18,border:"1px solid rgba(0,132,227,.4)",
+        overflow:"hidden",position:"relative",
+        boxShadow:"0 25px 60px rgba(0,0,0,.5), 0 0 80px rgba(0,132,227,.15)",
+        animation:"bufferSlideUp .4s ease"
+      }}>
+        <button onClick={onClose} style={{
+          position:"absolute",top:12,right:16,zIndex:10,
+          background:"rgba(255,255,255,.1)",border:"none",borderRadius:"50%",
+          width:32,height:32,cursor:"pointer",color:"#fff",fontSize:"1rem",
+          display:"flex",alignItems:"center",justifyContent:"center"
+        }}>✕</button>
+
+        <div style={{background:"linear-gradient(90deg,rgba(0,132,227,.2),rgba(0,184,148,.1))",padding:"10px 20px",fontSize:".75rem",color:"#aaa",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,.06)"}}>
+          📦 <strong style={{color:"#FDCB6E"}}>DEMO DROPBOX:</strong> Video demo 3 phút — chưa viết 1 dòng code!
+        </div>
+
+        <div style={{padding:"30px 30px 20px",textAlign:"center"}}>
+          <div key={step} style={{animation:"bufferFadeInUp .4s ease"}}>
+            {step === 0 && (
+              <>
+                <div style={{fontSize:"3.5rem",marginBottom:10}}>😤</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:8}}>Drew Houston quên USB ở nhà... lần thứ 100</div>
+                <div style={{fontSize:".9rem",color:"#aaa",marginBottom:16}}>Muốn tạo app lưu file trên cloud. Nhưng build cần 1 NĂM.</div>
+                <div style={{display:"inline-block",padding:"10px 20px",background:"rgba(225,112,85,.1)",border:"1px solid rgba(225,112,85,.3)",borderRadius:10}}>
+                  <span style={{color:"#E17055",fontWeight:700}}>💡 Ý tưởng:</span>
+                  <span style={{color:"#aaa",marginLeft:8}}>Quay video demo GIẢ VỜ sản phẩm đã xong!</span>
+                </div>
+              </>
+            )}
+
+            {step === 1 && (
+              <>
+                <div style={{
+                  background:"#000",borderRadius:12,padding:"20px",display:"inline-block",
+                  border:"2px solid rgba(0,132,227,.3)",position:"relative",width:"80%"
+                }}>
+                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+                    <div style={{width:10,height:10,borderRadius:"50%",background:"#e17055",animation:"bufferPulse 1s ease infinite"}}/>
+                    <span style={{fontSize:".72rem",color:"#e17055",fontWeight:700}}>● REC</span>
+                    <span style={{fontSize:".72rem",color:"#888",marginLeft:"auto"}}>03:22</span>
+                  </div>
+                  <div style={{fontSize:"1.3rem",fontWeight:800,color:"#fff",marginBottom:6}}>📂 Dropbox Demo</div>
+                  <div style={{display:"flex",justifyContent:"center",gap:14,margin:"10px 0"}}>
+                    <div style={{textAlign:"center"}}>
+                      <div style={{fontSize:"2rem"}}>🖥️</div>
+                      <div style={{fontSize:".65rem",color:"#888"}}>Kéo file vào</div>
+                    </div>
+                    <div style={{fontSize:"1.5rem",color:"#0984e3",alignSelf:"center"}}>→</div>
+                    <div style={{textAlign:"center"}}>
+                      <div style={{fontSize:"2rem"}}>☁️</div>
+                      <div style={{fontSize:".65rem",color:"#888"}}>Tự động sync</div>
+                    </div>
+                    <div style={{fontSize:"1.5rem",color:"#0984e3",alignSelf:"center"}}>→</div>
+                    <div style={{textAlign:"center"}}>
+                      <div style={{fontSize:"2rem"}}>💻</div>
+                      <div style={{fontSize:".65rem",color:"#888"}}>Truy cập mọi nơi</div>
+                    </div>
+                  </div>
+                  <div style={{fontSize:".72rem",color:"#aaa",fontStyle:"italic"}}>* Thực tế chưa viết 1 dòng code — chỉ quay màn hình GIẢ VỜ!</div>
+                </div>
+              </>
+            )}
+
+            {step === 2 && (
+              <>
+                <div style={{fontSize:"3rem",marginBottom:10}}>📰</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:8}}>Đăng video lên Hacker News</div>
+                <div style={{
+                  display:"inline-block",padding:"14px 20px",
+                  background:"rgba(255,102,0,.08)",border:"1px solid rgba(255,102,0,.3)",
+                  borderRadius:10,textAlign:"left"
+                }}>
+                  <div style={{fontSize:".78rem",fontWeight:800,color:"#FF6600"}}>Y | Hacker News</div>
+                  <div style={{fontSize:".9rem",color:"#fff",marginTop:6}}>🔗 <strong>Dropbox — Throw away your USB drive</strong></div>
+                  <div style={{fontSize:".72rem",color:"#888",marginTop:4}}>by drew_houston | 234 points | 189 comments</div>
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              <>
+                <div style={{fontSize:"1rem",fontWeight:700,color:"#aaa",marginBottom:12}}>📊 Sign-ups đang BÙNG NỔ!</div>
+                <div style={{
+                  fontSize:"3.5rem",fontWeight:900,
+                  color: count >= 75000 ? "#00B894" : "#FDCB6E",
+                  transition:"color .3s",fontVariantNumeric:"tabular-nums"
+                }}>
+                  {count >= 75000 ? "75,000" : count.toLocaleString()}
+                </div>
+                <div style={{fontSize:".9rem",color:"#aaa",marginTop:4}}>người đăng ký</div>
+                <div style={{
+                  width:"80%",height:8,background:"rgba(255,255,255,.06)",borderRadius:4,
+                  margin:"14px auto 0",overflow:"hidden"
+                }}>
+                  <div style={{
+                    width: `${Math.min((count/75000)*100, 100)}%`,
+                    height:"100%",borderRadius:4,transition:"width .1s",
+                    background: count >= 75000 ? "linear-gradient(90deg,#00B894,#55efc4)" : "linear-gradient(90deg,#FDCB6E,#ffeaa7)"
+                  }}/>
+                </div>
+                {count >= 75000 && (
+                  <div style={{marginTop:12,fontSize:".85rem",color:"#00B894",fontWeight:700,animation:"bufferFadeInUp .3s ease"}}>
+                    ✅ QUA ĐÊM: 5,000 → 75,000! Tăng 15 LẦN!
+                  </div>
+                )}
+              </>
+            )}
+
+            {step === 4 && (
+              <>
+                <div style={{fontSize:"3rem",marginBottom:10}}>🎯</div>
+                <div style={{fontSize:"1.2rem",fontWeight:800,color:"#fff",marginBottom:8}}>Bây giờ Drew YÊN TÂM bỏ 1 năm build</div>
+                <div style={{
+                  display:"inline-block",padding:"16px 24px",
+                  background:"rgba(0,184,148,.08)",border:"2px solid rgba(0,184,148,.3)",
+                  borderRadius:14
+                }}>
+                  <div style={{fontSize:".85rem",color:"#aaa",marginBottom:8}}>Nếu không ai care? → Tiết kiệm 1 NĂM cuộc đời.</div>
+                  <div style={{fontSize:".85rem",color:"#aaa",marginBottom:8}}>75K người muốn? → Build ngay!</div>
+                  <div style={{fontSize:"1rem",fontWeight:800,color:"#00B894",marginTop:8}}>💡 MVP = Hỏi thị trường TRƯỚC khi build</div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div style={{padding:"10px 20px 16px",textAlign:"center",fontSize:".72rem",color:"#666"}}>
+          Bước {step + 1} / 5 • Auto-replay
+        </div>
+      </div>
     </div>
   );
 }
