@@ -275,9 +275,12 @@ export default function Home() {
             left={<><div className="col-icon" style={{background:"linear-gradient(135deg,#FDCB6E,#ffeaa7)"}}><i className="fas fa-piggy-bank" /></div><h3>Bootstrapping</h3><ul><li>Tự tài trợ từ <strong>tiền cá nhân</strong></li><li>Dùng doanh thu sớm tái đầu tư</li><li>Giữ 100% quyền kiểm soát</li></ul></>}
             right={<><div className="col-icon" style={{background:"linear-gradient(135deg,#E17055,#fab1a0)"}}><i className="fas fa-heart" /></div><h3>FFF — Friends, Family &amp; Fools</h3><ul><li>Nguồn vốn <strong>dễ tiếp cận nhất</strong></li><li>Đầu tư dựa trên <strong>niềm tin cá nhân</strong></li><li>Rủi ro: ảnh hưởng mối quan hệ</li></ul></>}
           />
-          <Accordion title="🔍 Ví dụ: Những startup bootstrap thành công">
-            <div className="example-highlight">📧 <strong>Mailchimp:</strong> Bootstrap từ 2001, không nhận vốn ngoài. Năm 2021 bán cho Intuit với giá <strong>$12 tỷ</strong>.</div>
-            <div className="example-highlight">🎮 <strong>Mojang (Minecraft):</strong> Notch tự code Minecraft, bán game online. Microsoft mua lại <strong>$2.5 tỷ</strong> năm 2014.</div>
+          <Accordion title="🔍 Ví dụ: Bootstrapping & FFF thành công">
+            <div className="example-highlight">📧 <strong>Mailchimp (Bootstrap):</strong> Bootstrap từ 2001, không nhận vốn ngoài. Năm 2021 bán cho Intuit với giá <strong>$12 tỷ</strong>. Founders giữ 100% → nhận trọn $12 tỷ!</div>
+            <div className="example-highlight">🎮 <strong>Mojang — Minecraft (Bootstrap):</strong> Notch tự code Minecraft một mình, bán game online. Microsoft mua lại <strong>$2.5 tỷ</strong> năm 2014.</div>
+            <div className="example-highlight">📦 <strong>Amazon (FFF):</strong> Jeff Bezos vay <strong>$245,000</strong> từ bố mẹ để khởi nghiệp Amazon năm 1994. Bố mẹ nói: &quot;Chúng tôi không đầu tư vào Amazon, chúng tôi đầu tư vào Jeff.&quot; → Giờ Amazon trị giá <strong>$1.7 nghìn tỷ</strong>. Bố mẹ lời khoảng <strong>$30 tỷ</strong>!</div>
+            <div className="example-highlight">🔍 <strong>Google (FFF):</strong> Larry Page &amp; Sergey Brin nhận <strong>$100,000</strong> từ Andy Bechtolsheim (đồng sáng lập Sun Microsystems) — viết check trước cả khi Google thành lập công ty! Đó chính là &quot;Fool&quot; — tin tưởng tuyệt đối vào con người.</div>
+            <p>⚠️ <strong>Lưu ý FFF:</strong> Nếu startup thất bại → mất tiền LẪN mối quan hệ. Luôn nói rõ rủi ro trước khi nhận tiền từ người thân!</p>
           </Accordion>
         </Slide>
 
