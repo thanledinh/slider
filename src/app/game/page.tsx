@@ -80,63 +80,26 @@ export default function GamePage() {
   const [timer, setTimer] = useState(15);
   const [revealed, setRevealed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const audioCtx = useRef<AudioContext | null>(null);
+  const sfx = useRef<Record<string, HTMLAudioElement>>({});
 
-  const getCtx = useCallback(() => {
-    if (!audioCtx.current) audioCtx.current = new AudioContext();
-    return audioCtx.current;
+  useEffect(() => {
+    sfx.current = {
+      boom: new Audio("/sfx/boom.wav"),
+      tick: new Audio("/sfx/tick.wav"),
+      success: new Audio("/sfx/success.wav"),
+      wrong: new Audio("/sfx/wrong.wav"),
+      victory: new Audio("/sfx/victory.wav"),
+    };
+    // Preload
+    Object.values(sfx.current).forEach(a => { a.load(); a.volume = 0.7; });
   }, []);
 
-  const playTone = useCallback((freq: number, dur: number, vol = 0.1, type: OscillatorType = "sine") => {
+  const play = useCallback((name: string) => {
     try {
-      const ctx = getCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(vol, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime + dur / 1000);
+      const a = sfx.current[name];
+      if (a) { a.currentTime = 0; a.play(); }
     } catch {}
-  }, [getCtx]);
-
-  const playBoom = useCallback(() => {
-    try {
-      const ctx = getCtx();
-      const osc1 = ctx.createOscillator();
-      const gain1 = ctx.createGain();
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(150, ctx.currentTime);
-      osc1.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.5);
-      gain1.gain.setValueAtTime(0.35, ctx.currentTime);
-      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-      osc1.connect(gain1); gain1.connect(ctx.destination);
-      osc1.start(); osc1.stop(ctx.currentTime + 0.6);
-      const bufSz = ctx.sampleRate * 0.3;
-      const buf = ctx.createBuffer(1, bufSz, ctx.sampleRate);
-      const d = buf.getChannelData(0);
-      for (let i = 0; i < bufSz; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / bufSz);
-      const ns = ctx.createBufferSource(); ns.buffer = buf;
-      const ng = ctx.createGain();
-      ng.gain.setValueAtTime(0.12, ctx.currentTime);
-      ng.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-      ns.connect(ng); ng.connect(ctx.destination); ns.start();
-    } catch {}
-  }, [getCtx]);
-
-  const playFanfare = useCallback(() => {
-    [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 300, 0.12, "triangle"), i * 100));
-  }, [playTone]);
-
-  const playBuzz = useCallback(() => {
-    playTone(200, 400, 0.15, "sawtooth");
-    setTimeout(() => playTone(150, 400, 0.1, "sawtooth"), 150);
-  }, [playTone]);
-
-  const playVictory = useCallback(() => {
-    [523, 659, 784, 1047, 1319].forEach((f, i) => setTimeout(() => playTone(f, 400, 0.1, "triangle"), i * 120));
-  }, [playTone]);
+  }, []);
 
   const startCountdown = useCallback(() => {
     setPhase("countdown");
@@ -149,11 +112,11 @@ export default function GamePage() {
           setPhase("vote");
           return 0;
         }
-        if (t <= 4) playTone(800, 80, 0.08);
+        if (t <= 4) play("tick");
         return t - 1;
       });
     }, 1000);
-  }, [playTone]);
+  }, [play]);
 
   useEffect(() => {
     return () => {
@@ -180,14 +143,14 @@ export default function GamePage() {
       else if (v === false && startup.success) newScores[i] -= 100;
     });
     setScores(newScores);
-    if (startup.success) playFanfare(); else playBuzz();
+    play(startup.success ? "success" : "wrong");
     setPhase("reveal");
   };
 
   const nextRound = () => {
     if (round >= STARTUPS.length - 1) {
       setPhase("final");
-      playVictory();
+      play("victory");
       return;
     }
     setRound((r) => r + 1);
@@ -246,7 +209,7 @@ export default function GamePage() {
       {/* SPLASH — cinematic title slam */}
       {phase === "splash" && (
         <div
-          onClick={() => { playBoom(); setPhase("intro"); }}
+          onClick={() => { play("boom"); setPhase("intro"); }}
           style={{
             textAlign: "center", cursor: "pointer",
             position: "absolute", inset: 0,
