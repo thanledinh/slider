@@ -70,10 +70,10 @@ const TEAMS = [
   { name: "Nhóm C", color: "#E17055", emoji: "🦁" },
 ];
 
-type Phase = "intro" | "pitch" | "countdown" | "vote" | "reveal" | "scores" | "final";
+type Phase = "splash" | "intro" | "pitch" | "countdown" | "vote" | "reveal" | "scores" | "final";
 
 export default function GamePage() {
-  const [phase, setPhase] = useState<Phase>("intro");
+  const [phase, setPhase] = useState<Phase>("splash");
   const [round, setRound] = useState(0);
   const [scores, setScores] = useState([0, 0, 0]);
   const [votes, setVotes] = useState<(boolean | null)[]>([null, null, null]);
@@ -170,8 +170,8 @@ export default function GamePage() {
         <div style={{ position: "absolute", width: 400, height: 400, borderRadius: "50%", background: "#00B894", filter: "blur(120px)", opacity: 0.08, bottom: "-10%", right: "-5%", animation: "floatShape 20s infinite ease-in-out 5s" }} />
       </div>
 
-      {/* SCOREBOARD — always visible except intro */}
-      {phase !== "intro" && (
+      {/* SCOREBOARD — always visible except intro/splash */}
+      {phase !== "intro" && phase !== "splash" && (
         <div style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
           display: "flex", justifyContent: "center", gap: 24, padding: "12px 20px",
@@ -200,23 +200,65 @@ export default function GamePage() {
         </div>
       )}
 
-      {/* INTRO */}
-      {phase === "intro" && (
-        <div style={{ textAlign: "center", animation: "fxZoom .6s ease", maxWidth: 700, padding: 40 }}>
-          <div style={{ fontSize: "4rem", marginBottom: 16 }}>🦈</div>
-          <h1 style={{ fontSize: "3rem", fontWeight: 900, marginBottom: 8, fontFamily: "'Playfair Display', serif" }}>
-            Shark Tank <span style={{ background: "linear-gradient(135deg,#6C5CE7,#00B894,#FDCB6E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Battle</span>
+      {/* SPLASH — cinematic title slam */}
+      {phase === "splash" && (
+        <div
+          onClick={() => setPhase("intro")}
+          style={{
+            textAlign: "center", cursor: "pointer",
+            position: "absolute", inset: 0,
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            zIndex: 20,
+          }}
+        >
+          <div style={{ fontSize: "5rem", animation: "sharkDrop .8s cubic-bezier(.16,1,.3,1) forwards, sharkPulse 2s ease-in-out 1.2s infinite" }}>🦈</div>
+          <h1 style={{
+            fontSize: "5.5rem", fontWeight: 900, fontFamily: "'Playfair Display', serif",
+            animation: "titleSlam .7s cubic-bezier(.16,1,.3,1) .3s backwards",
+            marginBottom: 8,
+          }}>
+            Shark Tank
           </h1>
-          <p style={{ fontSize: "1.1rem", color: "#a0a0b8", marginBottom: 32 }}>
+          <h1 style={{
+            fontSize: "6rem", fontWeight: 900, fontFamily: "'Playfair Display', serif",
+            background: "linear-gradient(135deg,#6C5CE7,#00B894,#FDCB6E,#E17055)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            animation: "titleSlam .7s cubic-bezier(.16,1,.3,1) .6s backwards",
+            lineHeight: 1.1,
+          }}>
+            Battle
+          </h1>
+          <p style={{
+            fontSize: "1rem", color: "#555", marginTop: 40,
+            animation: "fadeInUp .5s ease 1.5s backwards",
+            letterSpacing: 2,
+          }}>
+            Nhấn để tiếp tục...
+          </p>
+        </div>
+      )}
+
+      {/* INTRO — teams, rules, start button */}
+      {phase === "intro" && (
+        <div style={{ textAlign: "center", maxWidth: 700, padding: 40 }}>
+          <div style={{ animation: "shrinkTitle .6s cubic-bezier(.4,0,.2,1) forwards", marginBottom: 12 }}>
+            <div style={{ fontSize: "2rem", marginBottom: 6 }}>🦈</div>
+            <h1 style={{ fontSize: "1.8rem", fontWeight: 900, fontFamily: "'Playfair Display', serif" }}>
+              Shark Tank <span style={{ background: "linear-gradient(135deg,#6C5CE7,#00B894,#FDCB6E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Battle</span>
+            </h1>
+          </div>
+          <p style={{ fontSize: "1rem", color: "#a0a0b8", marginBottom: 24, animation: "fadeInUp .5s ease .2s backwards" }}>
             3 nhóm — 6 startup — Ai là nhà đầu tư giỏi nhất?
           </p>
-          <div style={{ display: "flex", gap: 16, justifyContent: "center", marginBottom: 32 }}>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", marginBottom: 24, animation: "fadeInUp .5s ease .35s backwards" }}>
             {TEAMS.map((t, i) => (
               <div key={i} style={{
                 padding: "16px 28px", borderRadius: 16,
                 background: `rgba(${t.color === "#6C5CE7" ? "108,92,231" : t.color === "#00B894" ? "0,184,148" : "225,112,85"},.08)`,
                 border: `2px solid ${t.color}44`,
                 textAlign: "center",
+                animation: `teamPop .4s cubic-bezier(.34,1.56,.64,1) ${.4 + i * .1}s backwards`,
               }}>
                 <div style={{ fontSize: "2rem" }}>{t.emoji}</div>
                 <div style={{ fontSize: ".9rem", fontWeight: 700, color: t.color, marginTop: 4 }}>{t.name}</div>
@@ -227,6 +269,7 @@ export default function GamePage() {
             padding: "16px 24px", borderRadius: 12,
             background: "rgba(253,203,110,.06)", border: "1px solid rgba(253,203,110,.15)",
             fontSize: ".85rem", color: "#aaa", marginBottom: 24, textAlign: "left",
+            animation: "fadeInUp .5s ease .55s backwards",
           }}>
             <div style={{ fontWeight: 700, color: "#FDCB6E", marginBottom: 6 }}>📜 Luật chơi:</div>
             <div>• Mỗi round hiện 1 startup bí ẩn</div>
@@ -241,6 +284,7 @@ export default function GamePage() {
             color: "#fff", fontSize: "1.1rem", fontWeight: 700, cursor: "pointer",
             boxShadow: "0 4px 20px rgba(108,92,231,.4)",
             transition: "all .3s",
+            animation: "fadeInUp .5s ease .7s backwards",
           }}
             onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
             onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
@@ -498,6 +542,12 @@ export default function GamePage() {
         @keyframes fxFlip { from { opacity: 0; transform: perspective(1000px) rotateY(-20deg); } to { opacity: 1; transform: perspective(1000px) rotateY(0); } }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         @keyframes floatShape { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(30px, -20px); } }
+        @keyframes sharkDrop { from { opacity: 0; transform: scale(3) translateY(-60px); filter: blur(8px); } to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+        @keyframes sharkPulse { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.08) translateY(-6px); } }
+        @keyframes titleSlam { from { opacity: 0; transform: scale(2.5) translateY(30px); filter: blur(10px); } to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shrinkTitle { from { opacity: 0; transform: scale(1.6); } to { opacity: 1; transform: scale(1); } }
+        @keyframes teamPop { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: scale(1); } }
       `}</style>
     </div>
   );
