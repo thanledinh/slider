@@ -475,34 +475,48 @@ function ModelCard({ tag, isNew, icon, name, desc }: { tag: string; isNew?: bool
   );
 }
 
+function DemoNav({ step, total, setStep, onClose, labels }: { step: number; total: number; setStep: (n: number) => void; onClose: () => void; labels?: string[] }) {
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight" && step < total - 1) { e.stopPropagation(); setStep(step + 1); }
+      if (e.key === "ArrowLeft" && step > 0) { e.stopPropagation(); setStep(step - 1); }
+    };
+    window.addEventListener("keydown", h, true);
+    return () => window.removeEventListener("keydown", h, true);
+  }, [step, total, setStep, onClose]);
+
+  return (
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"8px 16px 14px"}}>
+      <button onClick={()=>step>0&&setStep(step-1)} style={{
+        background: step > 0 ? "rgba(255,255,255,.1)" : "rgba(255,255,255,.03)",
+        border:"none",borderRadius:8,padding:"6px 14px",cursor: step > 0 ? "pointer" : "default",
+        color: step > 0 ? "#fff" : "#444",fontSize:".78rem",fontWeight:700,transition:"all .2s"
+      }}>← Trước</button>
+      <div style={{display:"flex",gap:4,flex:1,justifyContent:"center"}}>
+        {(labels || Array.from({length:total},(_,i)=>`${i+1}`)).map((label, i) => (
+          <div key={i} onClick={()=>setStep(i)} style={{
+            padding:"3px 10px",borderRadius:12,fontSize:".63rem",fontWeight:600,cursor:"pointer",
+            background: i === step ? "rgba(253,203,110,.2)" : "rgba(255,255,255,.05)",
+            color: i === step ? "#FDCB6E" : "#666",
+            border: i === step ? "1px solid rgba(253,203,110,.3)" : "1px solid transparent",
+            transition:"all .3s"
+          }}>{label}</div>
+        ))}
+      </div>
+      <button onClick={()=>step<total-1&&setStep(step+1)} style={{
+        background: step < total-1 ? "rgba(253,203,110,.15)" : "rgba(255,255,255,.03)",
+        border: step < total-1 ? "1px solid rgba(253,203,110,.3)" : "1px solid transparent",
+        borderRadius:8,padding:"6px 14px",cursor: step < total-1 ? "pointer" : "default",
+        color: step < total-1 ? "#FDCB6E" : "#444",fontSize:".78rem",fontWeight:700,transition:"all .2s"
+      }}>Tiếp →</button>
+    </div>
+  );
+}
+
 function BufferDemo({ onClose }: { onClose: () => void }) {
-  const [phase, setPhase] = useState(0); // 0=idle, 1=cursor moving, 2=clicked, 3=signup shown
+  const [phase, setPhase] = useState(0); // 0=landing, 1=cursor hover, 2=clicked, 3=signup shown
 
-  useEffect(() => {
-    if (phase === 0) {
-      const t = setTimeout(() => setPhase(1), 1000);
-      return () => clearTimeout(t);
-    }
-    if (phase === 1) {
-      const t = setTimeout(() => setPhase(2), 2000);
-      return () => clearTimeout(t);
-    }
-    if (phase === 2) {
-      const t = setTimeout(() => setPhase(3), 800);
-      return () => clearTimeout(t);
-    }
-    if (phase === 3) {
-      const t = setTimeout(() => setPhase(0), 4000);
-      return () => clearTimeout(t);
-    }
-  }, [phase]);
-
-  // Close on Escape
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [onClose]);
 
   return (
     <div onClick={onClose} style={{
@@ -669,24 +683,6 @@ function ZapposDemo({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
   // 0=shoe store, 1=camera flash, 2=website with shoes, 3=order notification, 4=nick runs to store, 5=ship + amazon
 
-  useEffect(() => {
-    const delays = [1200, 1200, 1500, 1500, 1500, 4000];
-    if (step < 5) {
-      const t = setTimeout(() => setStep(s => s + 1), delays[step]);
-      return () => clearTimeout(t);
-    }
-    if (step === 5) {
-      const t = setTimeout(() => setStep(0), delays[5]);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
-
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [onClose]);
-
   const steps = [
     { emoji: "🏪", title: "Nick đi vào tiệm giày", desc: "Không có tiền xây website + kho hàng ($500K)", color: "#6C5CE7" },
     { emoji: "📸", title: "Chụp ảnh giày trên kệ!", desc: "Chi phí: $0 — chỉ cần điện thoại", color: "#FDCB6E" },
@@ -797,9 +793,7 @@ function ZapposDemo({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        <div style={{padding:"10px 20px 16px",textAlign:"center",fontSize:".72rem",color:"#666"}}>
-          Bước {step + 1} / 6 • Auto-replay
-        </div>
+        <DemoNav step={step} total={6} setStep={setStep} onClose={onClose} labels={["Tiệm giày","Chụp ảnh","Đăng web","Có đơn!","Mua & ship","$1.2 tỷ"]} />
       </div>
     </div>
   );
@@ -808,24 +802,6 @@ function ZapposDemo({ onClose }: { onClose: () => void }) {
 function DropboxDemo({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
   // 0=problem, 1=video playing, 2=posted to HN, 3=signups counting, 4=result
-
-  useEffect(() => {
-    const delays = [1500, 2000, 1500, 2500, 4000];
-    if (step < 4) {
-      const t = setTimeout(() => setStep(s => s + 1), delays[step]);
-      return () => clearTimeout(t);
-    }
-    if (step === 4) {
-      const t = setTimeout(() => setStep(0), delays[4]);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
-
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [onClose]);
 
   const [count, setCount] = useState(5000);
   useEffect(() => {
@@ -977,9 +953,7 @@ function DropboxDemo({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        <div style={{padding:"10px 20px 16px",textAlign:"center",fontSize:".72rem",color:"#666"}}>
-          Bước {step + 1} / 5 • Auto-replay
-        </div>
+        <DemoNav step={step} total={5} setStep={setStep} onClose={onClose} labels={["Quên USB","Video demo","Hacker News","Bùng nổ!","Kết luận"]} />
       </div>
     </div>
   );
@@ -988,24 +962,6 @@ function DropboxDemo({ onClose }: { onClose: () => void }) {
 function EquityDebtDemo({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
   // 0=setup, 1=both invest, 2=success scenario, 3=fail scenario, 4=summary
-
-  useEffect(() => {
-    const delays = [1500, 2000, 3000, 3000, 4000];
-    if (step < 4) {
-      const t = setTimeout(() => setStep(s => s + 1), delays[step]);
-      return () => clearTimeout(t);
-    }
-    if (step === 4) {
-      const t = setTimeout(() => setStep(0), delays[4]);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
-
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [onClose]);
 
   const Card = ({ bg, border, children }: { bg: string; border: string; children: React.ReactNode }) => (
     <div style={{
@@ -1182,17 +1138,7 @@ function EquityDebtDemo({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Progress */}
-        <div style={{display:"flex",justifyContent:"center",gap:6,padding:"8px 0 14px"}}>
-          {["Setup","Đầu tư","Thành công","Thất bại","Tóm tắt"].map((label, i) => (
-            <div key={i} style={{
-              padding:"3px 10px",borderRadius:12,fontSize:".65rem",fontWeight:600,
-              background: i === step ? "rgba(253,203,110,.2)" : "rgba(255,255,255,.05)",
-              color: i === step ? "#FDCB6E" : "#666",
-              border: i === step ? "1px solid rgba(253,203,110,.3)" : "1px solid transparent",
-              transition:"all .3s"
-            }}>{label}</div>
-          ))}
-        </div>
+        <DemoNav step={step} total={5} setStep={setStep} onClose={onClose} labels={["Setup","Đầu tư","Thành công","Thất bại","Tóm tắt"]} />
       </div>
     </div>
   );
