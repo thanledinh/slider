@@ -2,331 +2,199 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>🎙️ Kịch Bản Thuyết Trình — Nhóm 2</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>🎙️ Cheat Sheet — Nhóm 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0f0f1e;--card:#161628;--card2:#1c1c35;--t1:#eee;--t2:#aaa;--purple:#6C5CE7;--green:#00B894;--yellow:#FDCB6E;--orange:#E17055;--blue:#0984e3;--r:14px}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);line-height:1.85;padding:40px 20px}
-.c{max-width:900px;margin:0 auto}
-h1{font-size:2.2rem;font-weight:800;text-align:center;margin-bottom:6px}
-.sub{text-align:center;color:var(--t2);margin-bottom:36px}
-.toc{background:var(--card);border-radius:var(--r);padding:22px 26px;margin-bottom:36px;border:1px solid rgba(255,255,255,.06)}
-.toc h2{font-size:1rem;margin-bottom:10px;color:var(--purple)}
-.toc a{color:var(--t2);text-decoration:none;display:block;padding:3px 0;font-size:.88rem;transition:color .2s}
-.toc a:hover{color:var(--t1)}
-.toc a b{color:var(--purple);margin-right:6px}
-.sn{background:var(--card);border-radius:var(--r);padding:26px 30px;margin-bottom:22px;border:1px solid rgba(255,255,255,.06);transition:border-color .3s}
-.sn:hover{border-color:rgba(108,92,231,.25)}
-.num{float:right;font-size:2.2rem;font-weight:900;color:rgba(255,255,255,.04)}
-.tag{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:1px;margin-bottom:8px}
-.ts5{background:rgba(108,92,231,.15);color:var(--purple)}
-.ts6{background:rgba(0,184,148,.15);color:var(--green)}
-.ts7{background:rgba(253,203,110,.15);color:var(--yellow)}
-.ts8{background:rgba(225,112,85,.15);color:var(--orange)}
-.tsr{background:rgba(9,132,227,.15);color:var(--blue)}
-.sn h3{font-size:1.1rem;margin-bottom:10px}
-.sn h4{font-size:.92rem;margin:16px 0 6px;font-weight:700;color:var(--green)}
-
-.script{background:linear-gradient(135deg,rgba(108,92,231,.08),rgba(0,184,148,.04));border:1px solid rgba(108,92,231,.15);border-radius:12px;padding:20px 24px;margin:12px 0;font-size:.88rem;color:var(--t2);position:relative}
-.script::before{content:'🎙️';position:absolute;top:12px;right:16px;font-size:1.2rem;opacity:.5}
-.script b{color:var(--t1)}.script em{color:var(--yellow);font-style:normal}
-.script .interact{display:inline-block;background:rgba(253,203,110,.12);border:1px solid rgba(253,203,110,.2);border-radius:6px;padding:2px 8px;font-size:.78rem;color:var(--yellow);margin:2px 0}
-
-.tip{background:rgba(0,184,148,.06);border:1px solid rgba(0,184,148,.12);border-radius:8px;padding:14px 18px;margin:10px 0;font-size:.84rem}
-.tip b{color:var(--green)}
-.warn{background:rgba(225,112,85,.06);border:1px solid rgba(225,112,85,.12);border-radius:8px;padding:14px 18px;margin:10px 0;font-size:.84rem}
-.warn b{color:var(--orange)}
-.note{background:rgba(108,92,231,.06);border:1px solid rgba(108,92,231,.12);border-radius:8px;padding:14px 18px;margin:10px 0;font-size:.84rem}
-.note b{color:var(--purple)}
-
-.div{height:3px;background:linear-gradient(90deg,var(--purple),var(--green),var(--yellow),var(--orange));border-radius:3px;margin:36px 0;opacity:.3}
-.tm{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--t2);margin-left:6px}
-
-.answer{background:var(--card2);border-radius:10px;padding:16px 20px;margin:10px 0;border-left:3px solid var(--green);font-size:.84rem;color:var(--t2)}
-.answer b{color:var(--t1)}
-
-.tips-final{background:linear-gradient(135deg,rgba(108,92,231,.1),rgba(0,184,148,.1));border:1px solid rgba(108,92,231,.2);border-radius:var(--r);padding:24px 28px;margin:20px 0}
-.tips-final h3{color:var(--purple);margin-bottom:12px}
-.tips-final li{margin-bottom:8px;font-size:.88rem;color:var(--t2)}
-.tips-final li b{color:var(--t1)}
-
-@media print{body{background:#fff;color:#222}.sn{border:1px solid #ddd;background:#f9f9f9}.script{background:#f5f5ff}}
-@media(max-width:700px){body{padding:20px 10px}.sn{padding:18px}}
+:root{--bg:#0f0f1e;--card:#161628;--t1:#eee;--t2:#aaa;--purple:#6C5CE7;--green:#00B894;--yellow:#FDCB6E;--orange:#E17055;--blue:#0984e3}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);line-height:1.7;padding:30px 16px}
+.c{max-width:800px;margin:0 auto}
+h1{font-size:1.6rem;font-weight:800;text-align:center;margin-bottom:4px}
+.sub{text-align:center;color:var(--t2);margin-bottom:24px;font-size:.85rem}
+.s{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:14px;border-left:3px solid var(--purple)}
+.s.green{border-left-color:var(--green)} .s.yellow{border-left-color:var(--yellow)} .s.orange{border-left-color:var(--orange)} .s.blue{border-left-color:var(--blue)}
+.s h3{font-size:.95rem;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.tm{font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--t2)}
+.s ul{padding-left:18px;font-size:.82rem;color:var(--t2)}
+.s li{margin-bottom:3px}
+.s li b{color:var(--t1)}
+.say{color:var(--yellow);font-style:italic}
+.do{display:inline-block;background:rgba(253,203,110,.1);border:1px solid rgba(253,203,110,.15);border-radius:4px;padding:1px 6px;font-size:.72rem;color:var(--yellow);font-weight:600}
+.key{color:var(--green);font-weight:700}
+.div{height:2px;background:linear-gradient(90deg,var(--purple),var(--green),var(--yellow));border-radius:2px;margin:20px 0;opacity:.25}
+.ans{background:rgba(0,184,148,.04);border-radius:8px;padding:12px 16px;font-size:.78rem;color:var(--t2);margin:6px 0}
+.ans b{color:var(--t1)}
+@media(max-width:600px){body{padding:16px 8px}.s{padding:12px 14px}}
 </style>
 </head>
 <body>
 <div class="c">
-<h1>🎙️ Kịch Bản Thuyết Trình</h1>
-<p class="sub">Nhóm 2 — Module 1: Intro to Entrepreneurship • Phong cách Storytelling</p>
+<h1>⚡ Cheat Sheet Thuyết Trình</h1>
+<p class="sub">Nhóm 2 — Nhìn vào là biết nói gì • Tổng ~25-30 phút</p>
 
-<div class="toc">
-<h2>📑 Mục Lục</h2>
-<a href="#s1"><b>01</b> Mở đầu — Tạo sự tò mò</a>
-<a href="#s5"><b>02</b> Section 5: Core Concepts — SaaS, McDonald's, Grab, Marginal Cost</a>
-<a href="#s6"><b>03</b> Section 6: Validation — Đừng tin vào mẹ bạn!</a>
-<a href="#s7"><b>04</b> Section 7: Fundraising — Tiền của ai?</a>
-<a href="#s8"><b>05</b> Section 8: Idea Generation — Công thức triệu đô</a>
-<a href="#qa"><b>06</b> Phần 2: Câu hỏi tương tác + Đáp án</a>
-<a href="#end"><b>07</b> Kết thúc — Truyền cảm hứng</a>
-<a href="#tips"><b>💡</b> Tips thuyết trình thêm</a>
-</div>
-
-<!-- ==================== MỞ ĐẦU ==================== -->
-<div id="s1" class="sn"><div class="num">01</div>
-<h3>Slide 1-2: Mở đầu — Tạo sự tò mò <span class="tm">~1 phút</span></h3>
-<div class="script">
-<b>Script:</b> "Chào cả nhà! Trước khi bắt đầu, mình muốn hỏi: <em>Có ai ở đây từng nảy ra một ý tưởng 'triệu đô' lúc đang đi tắm, nhưng sáng hôm sau thức dậy lại thấy nó... hơi kỳ không?</em>
-<br><br><span class="interact">⏸️ Đợi lớp cười / giơ tay</span>
-<br><br>Đừng lo, Nhóm 2 chúng mình hôm nay sẽ giúp các bạn biến những ý tưởng 'phòng tắm' đó thành những doanh nghiệp thực thụ thông qua <b>4 phần</b>: Từ hiểu bản chất kinh doanh, cách kiểm chứng xem có ai thèm mua không, đến việc gọi vốn và sáng tạo ý tưởng."
-</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== SECTION 5 ==================== -->
-<div id="s5" class="sn"><div class="num">04</div>
-<span class="tag ts5">SECTION 5</span>
-<h3>Slide 3-4: Service vs Product & SaaS <span class="tm">~3-4 phút</span></h3>
-<div class="script">
-<b>Dẫn vào:</b> "Đầu tiên, hãy nói về sự khác biệt giữa <em>Sản phẩm (Product)</em> và <em>Dịch vụ (Service)</em>."
-<br><br><b>Giải thích:</b> "Product Business là bạn <b>bán một sản phẩm</b> — ví dụ Apple bán iPhone. Bạn làm 1 cái, bán hàng triệu cái → dễ mở rộng. Service Business là bạn <b>thực hiện công việc</b> — ví dụ tiệm sửa iPhone. Muốn phục vụ thêm khách = phải thuê thêm thợ → khó mở rộng."
-<br><br><b>Mẹo dẫn:</b> "Các bạn có thấy lạ khi ngày xưa bố mẹ mua đĩa CD Office dùng cả đời, mà giờ mình phải nộp tiền cho Microsoft hàng tháng không? Đó là cuộc cách mạng mang tên <em>SaaS — Software as a Service</em>."
-<br><br><b>Số liệu cụ thể:</b>
-<br>• <b>Microsoft Office:</b> Trước bán đĩa CD giá ~$300/lần dùng cả đời → Nay chuyển sang <em>Microsoft 365</em> thu $9.99/tháng. Tức $120/năm. 5 năm = $600 — gấp đôi! Nhưng khách hàng vẫn vui vì luôn có bản mới nhất.
-<br>• <b>Adobe Photoshop:</b> Từng bán $999/phiên bản → Nay <em>Creative Cloud</em> $54.99/tháng. Kết quả: doanh thu Adobe tăng <b>5 lần trong 8 năm</b>.
-<br><br><b>Điểm nhấn:</b> "Với nhà đầu tư, họ YÊU SaaS vì nó cực kỳ dễ dự đoán doanh thu. Mỗi sáng thức dậy đã biết chắc có triệu đô đổ vào tài khoản vì khách hàng trả phí hàng tháng → gọi là <em>Recurring Revenue (doanh thu lặp lại)</em>. Chi phí để phục vụ thêm 1 khách hàng gần bằng 0 (chỉ là copy phần mềm) → <b>cực dễ scale!</b>"
-</div>
-<div class="note"><b>📌 Bấm mở accordion trên slide</b> cho lớp thấy so sánh trực quan Microsoft + Adobe.</div>
-</div>
-
-<div class="sn"><div class="num">05</div>
-<span class="tag ts5">SECTION 5</span>
-<h3>Slide 5: Business Models — McDonald's & Grab <span class="tm">~4-5 phút</span></h3>
-<div class="script">
-<b>Gây sốc:</b> "Nếu mình nói <em>McDonald's không kiếm tiền từ Burger</em>, các bạn tin không?"
-<br><br><span class="interact">⏸️ Đợi phản ứng lớp</span>
-<br><br><b>Chi tiết McDonald's:</b> "Thực tế, McDonald's là một <b>tập đoàn Bất động sản</b>. Họ sở hữu đất, xây nhà hàng, rồi cho người nhượng quyền (franchisee) thuê lại. Franchisee phải trả tiền thuê đất + 4-5% doanh thu hàng tháng cho McDonald's.
-<br><br>Bạn muốn mở McDonald's? Đây là quy trình:
-<br>1️⃣ Bỏ ra <b>$1-2.2 triệu đô</b> phí ban đầu
-<br>2️⃣ Phải đi học tại <em>'Hamburger University'</em> — trường ĐẠI HỌC THẬT ở Chicago! Học từ 9-18 tháng
-<br>3️⃣ Làm mọi thứ ĐÚNG theo quy trình — từ kích thước miếng thịt, nhiệt độ khoai chiên, đến thời gian giữ burger trước khi bỏ
-<br>4️⃣ Đổi lại: bạn có thương hiệu #1 thế giới + hệ thống vận hành đã được chứng minh
-<br><br><em>Điểm mạnh:</em> Franchise gần như 'cầm tay chỉ việc' — tỉ lệ thành công >90%.
-<br><em>Điểm yếu:</em> Bạn không có tự do sáng tạo, phải tuân thủ 100%, và McDonald's kiểm soát nhiều hơn bạn."
-<br><br><b>Sharing Economy — Power Drill Dilemma:</b> "Trước khi nói Airbnb, hãy hiểu Sharing Economy là gì.
-<br><br>Một chiếc <b>khoan điện giá $100</b> nhưng trung bình chỉ dùng <b>13 phút trong cả đời</b>! Bạn không thực sự cần CÁI KHOAN — bạn cần CÁI LỖ TRÊN TƯỜNG. Vậy tại sao phải mua? → <em>Sharing Economy</em> ra đời: thuê khoan $5/lần, tiết kiệm $95. Người cho thuê cũng kiếm thêm tiền từ đồ không dùng. Nền tảng kết nối 2 bên và thu phí 15-25% mỗi giao dịch."
-<br><br><b>Câu chuyện Airbnb — Từ nệm hơi đến $75 tỷ:</b>
-<br>"Năm 2007, Brian Chesky và Joe Gebbia sống ở San Francisco. Tiền nhà <b>$1,150/tháng</b> mà 2 người <em>không đủ tiền trả</em>.
-<br><br>Đúng lúc đó, thành phố có hội nghị thiết kế lớn → tất cả khách sạn <b>hết phòng</b>. Hai anh nghĩ: Mình có phòng khách trống, mua 3 cái nệm hơi (air bed), cho khách ngủ qua đêm, thu $80/đêm, bao ăn sáng. → Đặt tên 'Air Bed & Breakfast' → sau rút ngắn thành <em>Airbnb</em>.
-<br><br><em>Kết quả đầu tiên:</em> 3 khách đặt, kiếm được $240 → đủ trả tiền nhà!
-<br><br><em>Giai đoạn khó khăn:</em> Sau khi làm website, gần như KHÔNG AI DÙNG. Tại sao? Vì ảnh phòng cho thuê rất XẤU — chụp bằng điện thoại cũ, tối, mờ → khách không tin tưởng. Hai anh <b>tự bỏ tiền bay đến New York</b>, gõ cửa từng nhà, chụp ảnh đẹp MIỄN PHÍ cho chủ nhà → ảnh đẹp hơn → khách book nhiều hơn. <em>Bài học: Đôi khi phải làm những việc 'không scale được' để khởi động.</em>
-<br><br><em>Y Combinator:</em> Năm 2009 nộp đơn vào YC. Paul Graham nói: 'Đây là ý tưởng ĐIÊN RỒ nhất tôi từng nghe. Ai mà cho người lạ ngủ trong nhà mình?' — Nhưng vẫn nhận vì thấy 2 founder rất kiên trì.
-<br><br><em>Đánh đổi:</em> Có chủ nhà cho thuê xong bị khách phá hoại, trộm đồ → phải tạo bảo hiểm $1 triệu/chủ nhà. Nhiều thành phố cấm Airbnb (Barcelona, New York). COVID 2020: mất <b>80% booking trong 8 tuần</b>, sa thải 25% nhân viên. Nhưng rồi xu hướng 'work from anywhere' cứu họ.
-<br><br><b>Mấu chốt:</b> Airbnb không sở hữu CĂN NHÀ NÀO — họ chỉ là nền tảng kết nối. Không cần vốn xây khách sạn, thêm nhà = thêm doanh thu. Nay: <b>7 triệu nhà, 220 quốc gia, trị giá $75 tỷ</b>."
-<br><br><b>Câu chuyện Grab — On Demand & Hyper-local:</b>
-<br>"<em>On Demand</em> = dịch vụ theo yêu cầu: bấm app → có người thực hiện ngay.
-<br><br><em>Khởi đầu (2012):</em> Anthony Tan, sinh viên Harvard gốc Malaysia, thấy taxi ở Kuala Lumpur rất tệ: chặt chém, từ chối khách, phụ nữ đi đêm không an toàn. → Viết app kết nối tài xế & hành khách, đảm bảo giá cố định + theo dõi GPS.
-<br><br><em>Cách Grab mở rộng từng bước:</em>
-<br>1️⃣ <b>Ride-hailing (2012-2016):</b> Bắt đầu với taxi, rồi thêm <em>GrabBike ở VN</em> (vì VN đi xe máy nhiều), tuk-tuk ở Thái → hiểu văn hóa từng nước = <em>hyper-local</em>
-<br>2️⃣ <b>GrabFood (2018):</b> Nhận ra tài xế rảnh giữa các chuyến xe → cho giao đồ ăn luôn. Tận dụng mạng lưới tài xế CÓ SẴN = không cần tuyển thêm!
-<br>3️⃣ <b>GrabPay:</b> 70% dân Đông Nam Á KHÔNG CÓ tài khoản ngân hàng → Grab tạo ví điện tử, cho nạp/chuyển tiền qua app
-<br>4️⃣ <b>2018:</b> MUA LẠI toàn bộ Uber Đông Nam Á! Uber rút khỏi thị trường.
-<br><br><em>Đánh đổi:</em> Grab <b>LỖ hơn $10 tỷ</b> trước IPO — 'đốt tiền' khuyến mãi để chiếm thị phần. Chiến lược: chấp nhận lỗ ngắn hạn → thành độc quyền dài hạn.
-<br><br><b>Bài học:</b> Grab thắng Uber vì hiểu văn hóa địa phương + tận dụng tài nguyên có sẵn (tài xế → food → payment). <em>Đôi khi hiểu văn hóa địa phương còn quan trọng hơn công nghệ cao siêu từ Silicon Valley!</em> Nay trị giá <b>$40 tỷ</b>."
-</div>
-<div class="note"><b>📌 Bấm accordion trên slide</b> cho lớp thấy tóm tắt Power Drill + Airbnb + Grab.</div>
-</div>
-
-<div class="sn"><div class="num">06</div>
-<span class="tag ts5">SECTION 5</span>
-<h3>Slide 6: Scalability & Marginal Cost <span class="tm">~2-3 phút</span></h3>
-<div class="script">
-<b>Script:</b> "Nhà đầu tư sẽ hỏi bạn câu đầu tiên: <em>'Ý tưởng này có Scale được không?'</em>
-<br><br>Các bạn hãy nhìn khóa học Udemy mà chúng ta đang học. Giảng viên chỉ quay <b>1 lần</b> (tốn 50 giờ), nhưng bán cho 1 người hay 1 triệu người thì cũng không tốn thêm giờ nào. Đó là <em>Chi phí biên (Marginal Cost) bằng 0</em>.
-<br><br>So sánh: nghệ sĩ vẽ tranh — mỗi bức mất 20 giờ. Muốn bán 100 bức = 2,000 giờ. Không thể clone nghệ sĩ!
-<br><br><b>Nếu bạn làm một thứ mà phục vụ thêm khách hàng không tốn thêm đồng nào — bạn chính là tỷ phú tương lai!</b>"
-</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== SECTION 6 ==================== -->
-<div id="s6" class="sn"><div class="num">08</div>
-<span class="tag ts6">SECTION 6</span>
-<h3>Slide 7-9: Validation — Đừng tin vào mẹ bạn! <span class="tm">~4-5 phút</span></h3>
-<div class="script">
-<b>Script:</b> "Eric Ries nói rồi: <em>Ý tưởng trong đầu luôn tuyệt vời cho đến khi ra thực tế.</em> Nhìn số: <b>42% startup chết vì làm ra cái KHÔNG AI CẦN</b>.
-<br><br>Bây giờ mình giới thiệu một khái niệm sẽ cứu các bạn: <em>The Mom Test</em>."
-<br><br><span class="interact">⏸️ Hỏi lớp: "Theo các bạn, nếu hỏi mẹ 'Ý tưởng con hay không?' thì mẹ sẽ trả lời gì?"</span>
-<br><br>"Đúng rồi — mẹ sẽ LUÔN nói hay vì mẹ yêu bạn! Đó là <em>confirmation bias</em>. Thay vào đó, hãy hỏi: <b>'Lần cuối mẹ gặp vấn đề này là khi nào?'</b> — Đó mới là Validation thật sự.
-<br><br>Validation không phải hỏi 'hay không?'. Validation là tìm bằng chứng <b>người lạ SẴN SÀNG BỎ TIỀN MUA</b>. Tiền nói to hơn lời khen!"
-</div>
-</div>
-
-<div class="sn"><div class="num">10</div>
-<span class="tag ts6">SECTION 6</span>
-<h3>Slide 10: Lean Startup — Build-Measure-Learn <span class="tm">~2-3 phút</span></h3>
-<div class="script">
-<b>Script:</b> "Framework nổi tiếng nhất: <em>BUILD → MEASURE → LEARN</em>.
-<br><br>Build sản phẩm tối giản → Đo phản hồi bằng DATA (không phải cảm tính!) → Rút bài học → Tiếp tục hoặc <em>Pivot</em> (đổi hướng).
-<br><br>Nói về Pivot — nhiều công ty lớn đều đã pivot:"
-<br><br><span class="interact">⏸️ Hỏi: "Ai biết YouTube ban đầu là trang web gì không?"</span>
-<br><br>"YouTube ban đầu là trang <b>HẸN HÒ</b> (video dating)! Instagram là app check-in. Slack là một GAME online thất bại — nhưng chat tool nội bộ quá hay nên pivot thành Slack trị giá 27 tỷ đô.
-<br><br><em>Pivot không phải thất bại — đó là THÔNG MINH.</em>"
-</div>
-</div>
-
-<div class="sn"><div class="num">11</div>
-<span class="tag ts6">SECTION 6</span>
-<h3>Slide 11: MVP — Zappos & Dropbox <span class="tm">~3-4 phút</span></h3>
-<div class="script">
-<b>Kể chuyện Zappos chi tiết:</b> "Đây là đỉnh cao của sự <em>'thông minh lười biếng'</em>.
-<br><br>Năm 1999, Nick Swinmurn muốn bán giày online. Ai cũng bảo: 'Điên à? Ai mua giày mà không thử?' Nếu là người bình thường, bạn sẽ:
-<br>• Bỏ $500K xây website
-<br>• Thuê kho hàng chứa 10,000 đôi giày
-<br>• Thuê nhân viên đóng gói, ship hàng
-<br>→ Tốn nửa triệu đô TRƯỚC KHI biết có ai muốn mua không!
-<br><br>Nick làm gì? <b>Chỉ ra tiệm giày gần nhà, chụp ảnh giày trên kệ, đăng lên web</b>. XONG. Web không xịn, ảnh không đẹp, nhưng đủ để test.
-<br><br>Khi có khách đặt mua → Nick <b>chạy ra tiệm mua giày rồi tự đóng gói ship</b>. Ông ấy <em>chấp nhận lỗ tiền mua + ship</em> để mua một thứ quý giá hơn nhiều: <b>BẰng chứng rằng khách hàng CÓ chịu mua giày online!</b>
-<br><br>Kết quả: Giả thuyết đúng → xây hệ thống thật → phát triển → Amazon mua lại <b>$1.2 tỷ</b> năm 2009."
-<br><br><b>Kể chuyện Dropbox:</b> "Drew Houston gặp vấn đề: luôn quên USB ở nhà. Muốn tạo app lưu file trên cloud. Nhưng build app này cần <b>1 năm ròng rã</b>.
-<br><br>Thay vì build xong rồi mới test, anh ấy làm <em>video demo 3 phút</em> — quay màn hình <b>giả vờ sản phẩm đã xong</b> (thực tế chưa viết 1 dòng code!). Đăng lên Hacker News.
-<br><br>Kết quả qua 1 đêm: sign-ups từ 5,000 → <b>75,000 người</b>! Giờ Drew mới yên tâm bỏ 1 năm build thật. Nếu không ai quan tâm? Thì anh ấy tiết kiệm 1 NĂM cuộc đời."
-<br><br><b>Kể chuyện Buffer:</b> "Joel Gascoigne muốn tạo app lên lịch social media. Anh ấy tạo <em>landing page đơn giản</em> viết: 'Buffer sắp ra mắt!' + nút 'Xem Plans & Pricing'.
-<br><br>Nếu ai click vào Pricing = <b>có nhu cầu thật</b> (ai không quan tâm thì không click xem giá). Nếu click tiếp nút 'Đăng ký' = MUỐN MUA THẬt.
-<br><br>Thu hút đủ sign-ups → mới bắt đầu code. <em>Chưa viết 1 dòng code mà đã biết có khách!</em>"
-<br><br><b>Bài học chung:</b> <em>"MVP không phải sản phẩm dở. MVP là cách THÔNG MINH NHẤT để trả lời: 'Có ai muốn mua cái này không?' với chi phí thấp nhất có thể."</em>
-</div>
-<div class="note"><b>📌 Bấm accordion trên slide</b> cho lớp thấy tóm tắt Zappos, Dropbox, Buffer.</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== SECTION 7 ==================== -->
-<div id="s7" class="sn"><div class="num">13</div>
-<span class="tag ts7">SECTION 7</span>
-<h3>Slide 12-13: Fundraising — Tiền của ai? <span class="tm">~3-4 phút</span></h3>
-<div class="script">
-<b>Dẫn vào:</b> "<em>Gọi vốn giống như chọn bạn đời.</em> Chọn sai thì cả cuộc hành trình sẽ rất đau khổ! Có 2 con đường chính: tự lo (Bootstrapping) hoặc nhờ người khác (FFF, Angel, VC)."
-<br><br><b>Bootstrapping — Câu chuyện Mailchimp ($12 tỷ):</b>
-<br>"Bootstrapping = tự tài trợ từ tiền cá nhân + doanh thu sớm, không nhận vốn bên ngoài. Ưu điểm lớn nhất: <b>giữ 100% quyền kiểm soát</b>.
-<br><br>Mailchimp là ví dụ đẹp nhất. Năm 2001, Ben Chestnut và Dan Kurzius tạo Mailchimp — công cụ email marketing. Suốt <b>20 năm</b> họ không nhận 1 đồng vốn ngoại. Nhiều VC đến gõ cửa nhưng họ từ chối hết. Họ nói: <em>'Chúng tôi muốn TỰ quyết định hướng đi, không bị ai ép phải tăng trưởng bằng mọi giá.'</em>
-<br><br>Kết quả 2021: bán cho Intuit giá <b>$12 TỶ ĐÔ — hai ông chủ giữ trọn 12 tỷ!</b>"
-<br><br><span class="interact">⏸️ Hỏi lớp: "Nếu nhận VC từ đầu, qua nhiều vòng gọi vốn bị pha loãng còn 20%, thì 12 tỷ x 20% = bao nhiêu?"</span>
-<br><br>"Chỉ còn <b>2.4 tỷ</b>. Chênh lệch <b>gần 10 tỷ đô</b>! Đó là cái giá khổng lồ của việc nhường quyền kiểm soát."
-<br><br><b>Một ví dụ bootstrap khác — Minecraft:</b> "Markus 'Notch' Persson — 1 lập trình viên Thụy Điển, tự code game Minecraft trong phòng ngủ. Bán game online $20/bản, không VC, không publisher. Microsoft mua lại <b>$2.5 tỷ</b> năm 2014. 1 người, 1 game, 2.5 tỷ đô."
-<br><br><b>FFF — Friends, Family & Fools:</b>
-<br>"Nguồn vốn dễ tiếp cận nhất. 'Fools' nghe xấu nhưng ý nghĩa hay: đây là những người đầu tư vì <b>TIN TƯỞNG BẠN</b>, không phải vì phân tích tài chính.
-<br><br>Jeff Bezos (Amazon) vay từ bố mẹ <b>$245,000</b> để bắt đầu bán sách online. Bố mẹ ông nói: 'Chúng tôi không đầu tư vào Amazon, chúng tôi đầu tư vào con trai.'
-<br><br><em>Lời khuyên:</em> Chỉ nhận tiền mà họ <b>sẵn sàng mất</b>. Nếu startup thất bại mà phá hỏng mối quan hệ gia đình → đó là cái giá quá đắt."
-</div>
-</div>
-
-<div class="sn"><div class="num">15</div>
-<span class="tag ts7">SECTION 7</span>
-<h3>Slide 14-15: Angels, Equity/Debt, VC & Loans <span class="tm">~3-4 phút</span></h3>
-<div class="script">
-<b>Equity vs Debt giải thích qua ví dụ:</b> "Startup cần $100K:
-<br>→ Đường <em>Equity</em>: Angel đầu tư $100K đổi 20%. Nếu phá sản → bạn KHÔNG NỢ GÌ. Nếu công ty trị giá $10 triệu → angel có $2 triệu.
-<br>→ Đường <em>Debt</em>: Vay ngân hàng $100K. Phá sản → VẪN NỢ. Có thể mất nhà, xe thế chấp."
-<br><br><b>Venture Capital — Cuộc chơi xác suất:</b> "VC là cuộc chơi của những '<em>con tên lửa</em>'. Họ đầu tư 10 startup, biết 9 sẽ thất bại. Nhưng 1 cái thành <em>Unicorn (kỳ lân)</em> — bù lại tất cả.
-<br><br>Vì vậy VC chỉ đầu tư nếu bạn có tiềm năng <b>tăng trưởng gấp 100 lần</b>. Mở quán cà phê doanh thu $200K/năm → VC không quan tâm dù rất tốt. Họ cần bạn có thể thành $200 triệu/năm."
-</div>
-</div>
-
-<div class="sn"><div class="num">16</div>
-<span class="tag ts7">SECTION 7</span>
-<h3>Slide 16-17: Incubators & Business Plan vs One Pager <span class="tm">~2-3 phút</span></h3>
-<div class="script">
-<b>Incubator:</b> "Vườn ươm khởi nghiệp — đổi 5-7% equity → nhận $15-25K + mentorship + mạng lưới. <em>Y Combinator</em> là số 1 — tỉ lệ nhận chỉ 1.5% (khó hơn Harvard!). Alumni gồm Airbnb, Dropbox, Reddit. Tổng giá trị alumni > $600 tỷ."
-<br><br><b>Business Plan vs One Pager:</b> "Business Plan 50-60 trang — NĐT không đọc hết! Họ nhận hàng trăm mỗi tuần. Vì vậy <em>One Pager</em> ra đời — 1 trang duy nhất. NĐT scan 30 giây → quyết định có muốn gặp bạn không."
-<br><br><b>Tip:</b> "Luôn chuẩn bị CẢ HAI. Bạn không biết cơ hội đến từ đâu!"
-</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== SECTION 8 ==================== -->
-<div id="s8" class="sn"><div class="num">19</div>
-<span class="tag ts8">SECTION 8</span>
-<h3>Slide 18-19: Idea Generation — Công thức triệu đô <span class="tm">~2-3 phút</span></h3>
-<div class="script">
-<b>Script:</b> "Cuối cùng, làm sao để có ý tưởng hoàn chỉnh?
-<br><br>📝 <em>Scratchpad:</em> Richard Branson (tỷ phú Virgin) luôn mang theo sổ tay. <b>Ý tưởng nảy ra → ghi NGAY lập tức</b>. Não chỉ giữ ý tưởng 30 giây rồi quên!
-<br><br>📋 <em>Idea Lister:</em> Khi có 10-20 ý tưởng → đánh giá: Ai trả tiền? Giải quyết vấn đề gì? Model nào? → Xếp hạng và chọn.
-<br><br>🧮 <em>Công thức:</em> <b>Đối tượng + Vấn đề + Mô hình kinh doanh = Ý tưởng hoàn chỉnh</b>"
-<br><br><span class="interact">⏸️ Cho lớp thử ngay: "Ai cho mình 1 ví dụ áp dụng công thức này?"</span>
-<br><br>"Ví dụ: <em>'Sinh viên' (Đối tượng) + 'Khó tìm nhà trọ' (Vấn đề) + 'App Marketplace' (Model)</em> = Một startup tiềm năng!
-<br><br><b>Nếu thiếu 1 trong 3, ý tưởng của bạn chỉ là một giấc mơ dang dở.</b>"
-</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== CÂU HỎI ==================== -->
-<div id="qa" class="sn">
-<span class="tag tsr">PHẦN 2</span>
-<h3>Slide 20-22: 20 Câu Hỏi — Cách tương tác <span class="tm">~5-10 phút</span></h3>
-<div class="script">
-<b>Cách dẫn:</b> "Phần này thầy/cô sẽ test kiến thức mọi người. Có 20 câu hỏi — mình sẽ mời cả nhà trả lời!"
-<br><br><span class="interact">💡 MẸO: Thay vì đọc đáp án, nói: "Câu này mình xin mời bạn [Tên] trả lời thử xem sao, có quà nhé!"</span>
-</div>
-
-<h4>Đáp án nhanh cho người nói:</h4>
-<div class="answer">
-<b>1.</b> Product = bán SP (Apple bán iPhone), Service = làm dịch vụ (sửa iPhone). Product dễ scale hơn.
-<br><b>2.</b> SaaS = phần mềm thu phí hàng tháng thay vì bán 1 lần. VD: Microsoft 365, Netflix, Spotify. Tạo recurring revenue.
-<br><b>3.</b> Brick & mortar = cửa hàng vật lý. Brick & click = vật lý + online. VD: Thế Giới Di Động.
-<br><b>4.</b> Freemium = miễn phí + bán pro. VD: Evernote, Spotify. Khó cho SP vật lý vì marginal cost > 0.
-<br><b>5.</b> Scalability = phục vụ x10 khách mà không tốn x10 chi phí. Startup cần vì investor yêu cầu.
-<br><b>6.</b> Marginal cost thấp → dễ scale (Udemy ≈ 0), cao → khó (tranh vẽ tay = 20h/bức).
-<br><b>7.</b> 90% startup fail, 42% vì không có nhu cầu. Validate = chứng minh có người MUỐN MUA trước khi build.
-<br><b>8.</b> Tránh confirmation bias. Hỏi hành vi thực: "lần cuối trả tiền cho giải pháp tương tự?" (The Mom Test).
-<br><b>9.</b> Build MVP → Measure data → Learn: tiếp tục hay pivot. Vòng lặp liên tục.
-<br><b>10.</b> Khách hàng: "Vấn đề có thật?" Chuyên gia: "Xu hướng? Rào cản? Ai đã thử và thất bại?"
-</div>
-<div class="answer">
-<b>11.</b> Giả vờ SP có, tạo landing page + nút "Buy" → đo clicks. Dùng free ad coupons.
-<br><b>12.</b> MVP = SP tối giản test ý tưởng. Zappos: chụp ảnh giày → mua rồi ship → chứng minh nhu cầu → Amazon mua $1.2 tỷ.
-<br><b>13.</b> Equity = bán cổ phần (safe cho founder nếu fail), Debt = vay (phải trả dù fail).
-<br><b>14.</b> FFF = Friends Family Fools — đầu tư vì tin tưởng cá nhân. Ưu: dễ. Nhược: rủi ro mối quan hệ.
-<br><b>15.</b> Loans: rẻ nhất (lãi thấp), giữ equity. Nhưng cần cashflow, assets, 2 năm lịch sử, phải trả dù fail.
-<br><b>16.</b> VC gom tiền người khác, đầu tư 10 startup, 9 fail, 1 thành unicorn bù lại. Chỉ chọn tiềm năng 100x.
-<br><b>17.</b> Incubator: 5-7% equity đổi $15-25K + mentorship + network + pháp lý. 3 tháng.
-<br><b>18.</b> Business Plan 50-60 trang chi tiết nhưng dài. One Pager 1 trang hiện đại, NĐT scan 30 giây. Chuẩn bị cả hai.
-<br><b>19.</b> Scratchpad ghi ý tưởng ngay lập tức. Idea Lister đánh giá & xếp hạng ý tưởng theo tiêu chí.
-<br><b>20.</b> Subject + Problem + Business Model = Complete Idea. Thiếu 1 = chưa hoàn chỉnh.
-</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== KẾT THÚC ==================== -->
-<div id="end" class="sn"><div class="num">23</div>
-<h3>Slide 23: Kết thúc — Truyền cảm hứng <span class="tm">~30s</span></h3>
-<div class="script">
-<b>Script:</b> "<em>Khởi nghiệp không cần bắt đầu bằng sự hoàn hảo, nhưng phải bắt đầu bằng sự thông minh.</em>
-<br><br>Hãy ghi chép ý tưởng vào Scratchpad, validate thật nhanh bằng MVP, chọn nguồn vốn phù hợp. Nhớ: Zappos bắt đầu bằng chụp ảnh giày, Airbnb bắt đầu bằng nệm hơi, Grab bắt đầu bằng 1 bài tập ở Harvard.
-<br><br><b>Cảm ơn thầy/cô và các bạn đã lắng nghe!</b> 🎉"
-</div>
-</div>
-
-<div class="div"></div>
-
-<!-- ==================== TIPS ==================== -->
-<div id="tips" class="tips-final">
-<h3>💡 Tips Thuyết Trình Thêm</h3>
+<!-- MỞ ĐẦU -->
+<div class="s">
+<h3>Slide 1-2: Mở đầu <span class="tm">~1'</span></h3>
 <ul>
-<li><b>Tương tác:</b> Ở phần câu hỏi, thay vì đọc đáp án, hãy nói: "Câu này mình xin mời bạn [Tên] trả lời thử xem sao, có quà nhé!"</li>
-<li><b>Nhấn mạnh thuật ngữ:</b> Những từ như <em>Recurring Revenue</em>, <em>Marginal Cost</em>, <em>Pivot</em>, <em>Unicorn</em> hãy <b>nói to và rõ</b> để thầy cô thấy nhóm am hiểu chuyên ngành.</li>
-<li><b>Visual:</b> Nhắc bạn phụ trách slide bấm mở accordion ĐÚNG LÚC khi bạn kể chuyện Zappos hay Airbnb.</li>
-<li><b>Ngôn ngữ cơ thể:</b> Đi lại tự nhiên, giao tiếp mắt với lớp, dùng tay chỉ vào slide khi nói số liệu.</li>
-<li><b>Timing:</b> Nếu thấy nhanh quá → thêm câu hỏi tương tác. Nếu chậm → bỏ qua phần accordion chi tiết.</li>
+<li><span class="say">"Ai từng có ý tưởng triệu đô lúc đi tắm, sáng dậy thấy hơi kỳ?"</span></li>
+<li><span class="do">⏸️ Đợi cười</span></li>
+<li>Giới thiệu <b>4 phần</b>: Core Concepts → Validation → Fundraising → Idea Gen</li>
 </ul>
 </div>
 
-<p style="text-align:center;color:var(--t2);font-size:.85rem;padding:20px 0">🎙️ Kịch bản thuyết trình — Nhóm 2 — Module 1 • Tổng: ~25-30 phút</p>
+<div class="div"></div>
+
+<!-- SECTION 5 -->
+<div class="s">
+<h3>Slide 3-4: Service vs Product + SaaS <span class="tm">~3'</span></h3>
+<ul>
+<li><b>Product</b> = bán sản phẩm (Apple, iPhone) → dễ scale</li>
+<li><b>Service</b> = làm dịch vụ (sửa iPhone) → cần thêm người → khó scale</li>
+<li>SaaS: <b>Office $300/lần → M365 $9.99/tháng</b>. Adobe tăng <b>5x doanh thu</b></li>
+<li>Key: <span class="key">Recurring Revenue + Marginal Cost ≈ 0 = cực dễ scale</span></li>
+<li><span class="do">📌 Mở accordion</span></li>
+</ul>
+</div>
+
+<div class="s">
+<h3>Slide 5: Business Models — McDonald's & Grab <span class="tm">~4'</span></h3>
+<ul>
+<li><span class="say">"McDonald's không kiếm tiền từ burger — họ là tập đoàn BĐS!"</span> <span class="do">⏸️ Đợi sốc</span></li>
+<li>Franchise: bỏ <b>$1-2.2M</b>, học Hamburger University, tuân thủ 100% → thành công >90%</li>
+<li><b>Sharing Economy:</b> Khoan điện $100, dùng 13 phút cả đời → thuê $5/lần</li>
+<li><b>Airbnb:</b> Hết tiền nhà → nệm hơi $80/đêm → YC → <b>$75 tỷ, 0 căn nhà</b></li>
+<li><b>Grab:</b> Taxi tệ ở Malaysia → GrabBike VN → GrabFood → GrabPay → mua Uber SEA → <b>$40 tỷ</b></li>
+<li>Key: <span class="key">Hiểu văn hóa local quan trọng hơn tech cao siêu</span></li>
+<li><span class="do">📌 Mở accordion</span></li>
+</ul>
+</div>
+
+<div class="s">
+<h3>Slide 6: Scalability <span class="tm">~2'</span></h3>
+<ul>
+<li><span class="say">"NĐT hỏi đầu tiên: Cái này có scale được không?"</span></li>
+<li>Udemy: quay 1 lần, bán 1 triệu lần. <b>Marginal cost = 0</b></li>
+<li>Tranh vẽ tay: 20h/bức, không clone được nghệ sĩ</li>
+<li>Key: <span class="key">Phục vụ thêm khách không tốn thêm tiền = tỷ phú</span></li>
+</ul>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 6 -->
+<div class="s green">
+<h3>Slide 7-9: Validation <span class="tm">~4'</span></h3>
+<ul>
+<li><b>42% startup chết vì làm cái KHÔNG AI CẦN</b></li>
+<li><span class="say">"Hỏi mẹ 'ý tưởng con hay không?' → mẹ LUÔN nói hay!"</span></li>
+<li><b>The Mom Test:</b> Hỏi hành vi: <span class="say">"Lần cuối gặp vấn đề này khi nào?"</span></li>
+<li>Key: <span class="key">Tiền nói to hơn lời khen — tìm người SẴN SÀNG TRẢ TIỀN</span></li>
+</ul>
+</div>
+
+<div class="s green">
+<h3>Slide 10: Lean Startup <span class="tm">~2'</span></h3>
+<ul>
+<li><b>BUILD → MEASURE → LEARN</b> (lặp lại)</li>
+<li><span class="say">"YouTube ban đầu là trang HẸN HÒ! Slack là game thất bại!"</span></li>
+<li>Key: <span class="key">Pivot không phải thất bại — đó là THÔNG MINH</span></li>
+</ul>
+</div>
+
+<div class="s green">
+<h3>Slide 11: MVP — Zappos, Dropbox, Buffer <span class="tm">~3'</span></h3>
+<ul>
+<li><b>Zappos:</b> Chụp ảnh giày → có đơn → chạy ra mua → ship → chứng minh nhu cầu → <b>Amazon mua $1.2B</b></li>
+<li><b>Dropbox:</b> Video demo 3' giả vờ SP xong → sign-up 5K → <b>75K qua đêm</b></li>
+<li><b>Buffer:</b> Landing page + nút Pricing → ai click = có nhu cầu → <b>chưa code mà đã có khách</b></li>
+<li>Key: <span class="key">MVP = cách rẻ nhất trả lời "có ai muốn mua không?"</span></li>
+<li><span class="do">📌 Mở accordion + BẤM DEMO</span></li>
+</ul>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 7 -->
+<div class="s yellow">
+<h3>Slide 12-13: Bootstrapping & FFF <span class="tm">~3'</span></h3>
+<ul>
+<li><span class="say">"Gọi vốn giống chọn bạn đời — chọn sai cả hành trình đau khổ!"</span></li>
+<li><b>Mailchimp:</b> 20 năm bootstrap, 0 vốn ngoại → bán <b>$12 tỷ, giữ trọn</b></li>
+<li><b>Minecraft:</b> Notch code 1 mình → Microsoft mua <b>$2.5 tỷ</b></li>
+<li><span class="do">⏸️ Quiz: "Nhận VC bị pha loãng còn 20%, $12B x 20% = ?"</span> → chỉ $2.4B, chênh 10 tỷ!</li>
+<li><b>FFF:</b> Amazon — Bezos vay bố mẹ <b>$245K</b>. "Đầu tư vào Jeff, không phải Amazon"</li>
+<li>Key: <span class="key">Chỉ nhận tiền họ SẴN SÀNG MẤT</span></li>
+</ul>
+</div>
+
+<div class="s yellow">
+<h3>Slide 14-15: Angels, Equity/Debt, VC <span class="tm">~3'</span></h3>
+<ul>
+<li><b>Equity:</b> Bán cổ phần, fail = không nợ. <b>Debt:</b> Vay, fail = VẪN NỢ</li>
+<li><b>VC:</b> Đầu tư 10, biết 9 fail, cần 1 unicorn bù lại → chỉ chọn tiềm năng <b>100x</b></li>
+<li>Key: <span class="key">Quán café $200K/năm? VC không care. Cần $200M/năm!</span></li>
+<li><span class="do">📌 BẤM DEMO Equity vs Debt</span></li>
+</ul>
+</div>
+
+<div class="s yellow">
+<h3>Slide 16-17: Incubator & One Pager <span class="tm">~2'</span></h3>
+<ul>
+<li><b>Incubator:</b> 5-7% equity → $15-25K + mentor + network. YC tỉ lệ 1.5% (khó hơn Harvard)</li>
+<li><b>Business Plan</b> 60 trang — NĐT không đọc → <b>One Pager</b> 1 trang, scan 30 giây</li>
+<li>Key: <span class="key">Chuẩn bị CẢ HAI — không biết cơ hội từ đâu</span></li>
+</ul>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 8 -->
+<div class="s orange">
+<h3>Slide 18-19: Idea Generation <span class="tm">~2'</span></h3>
+<ul>
+<li><b>Scratchpad:</b> Ý tưởng nảy ra → ghi NGAY. Não giữ 30 giây rồi quên</li>
+<li><b>Idea Lister:</b> 10-20 ý tưởng → đánh giá → xếp hạng → chọn</li>
+<li>Công thức: <span class="key">Đối tượng + Vấn đề + Business Model = Complete Idea</span></li>
+<li><span class="do">⏸️ "Ai thử cho 1 ví dụ?"</span> → SV + khó tìm trọ + App Marketplace</li>
+</ul>
+</div>
+
+<div class="div"></div>
+
+<!-- CÂU HỎI -->
+<div class="s blue">
+<h3>Slide 20-22: 20 Câu hỏi <span class="tm">~5-10'</span></h3>
+<ul>
+<li><span class="do">💡 Mời tên cụ thể: "Câu này mời bạn [Tên] thử nha!"</span></li>
+</ul>
+<div class="ans">
+<b>1.</b> Product=bán SP, Service=làm dịch vụ • <b>2.</b> SaaS=phí hàng tháng, recurring revenue
+<br><b>3.</b> Brick&mortar=vật lý, Brick&click=+online • <b>4.</b> Freemium=free+pro (Spotify)
+<br><b>5.</b> Scale=x10 khách ≠ x10 chi phí • <b>6.</b> Marginal cost thấp→dễ scale
+<br><b>7.</b> 90% fail, 42% vì ko có nhu cầu • <b>8.</b> Tránh bias, hỏi hành vi thực
+<br><b>9.</b> Build→Measure→Learn lặp lại • <b>10.</b> KH: "vấn đề thật?", CG: "xu hướng? rào cản?"
+</div>
+<div class="ans">
+<b>11.</b> Giả vờ SP có, landing+nút Buy, đo clicks • <b>12.</b> MVP=SP tối giản, Zappos chụp ảnh giày
+<br><b>13.</b> Equity=cổ phần(safe), Debt=vay(phải trả) • <b>14.</b> FFF=tin tưởng cá nhân, rủi ro quan hệ
+<br><b>15.</b> Loan: rẻ, giữ equity, cần cashflow+asset • <b>16.</b> VC: 10 startup, 9 fail, cần 100x
+<br><b>17.</b> Incubator: 5-7% equity→$15-25K+mentor • <b>18.</b> BP 60 trang vs OnePager 1 trang
+<br><b>19.</b> Scratchpad=ghi ngay, Lister=đánh giá • <b>20.</b> Subject+Problem+Model=Complete Idea
+</div>
+</div>
+
+<div class="div"></div>
+
+<!-- KẾT -->
+<div class="s">
+<h3>Slide 23: Kết <span class="tm">~30s</span></h3>
+<ul>
+<li><span class="say">"Khởi nghiệp không cần hoàn hảo, nhưng phải THÔNG MINH"</span></li>
+<li>Zappos = ảnh giày, Airbnb = nệm hơi, Grab = bài tập Harvard</li>
+<li><b>Cảm ơn thầy/cô và các bạn! 🎉</b></li>
+</ul>
+</div>
+
 </div>
 </body>
 </html>
