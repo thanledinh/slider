@@ -68,6 +68,7 @@ const TEAMS = [
   { name: "Nhóm A", color: "#6C5CE7", emoji: "🦈" },
   { name: "Nhóm B", color: "#00B894", emoji: "🐉" },
   { name: "Nhóm C", color: "#E17055", emoji: "🦁" },
+  { name: "Nhóm D", color: "#FDCB6E", emoji: "🦊" },
 ];
 
 type Phase = "splash" | "intro" | "pitch" | "countdown" | "vote" | "reveal" | "scores" | "final";
@@ -75,8 +76,8 @@ type Phase = "splash" | "intro" | "pitch" | "countdown" | "vote" | "reveal" | "s
 export default function GamePage() {
   const [phase, setPhase] = useState<Phase>("splash");
   const [round, setRound] = useState(0);
-  const [scores, setScores] = useState([0, 0, 0]);
-  const [votes, setVotes] = useState<(boolean | null)[]>([null, null, null]);
+  const [scores, setScores] = useState([0, 0, 0, 0]);
+  const [votes, setVotes] = useState<(boolean | null)[]>([null, null, null, null]);
   const [timer, setTimer] = useState(15);
   const [revealed, setRevealed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -154,7 +155,7 @@ export default function GamePage() {
       return;
     }
     setRound((r) => r + 1);
-    setVotes([null, null, null]);
+    setVotes([null, null, null, null]);
     setRevealed(false);
     setPhase("pitch");
   };
@@ -190,7 +191,7 @@ export default function GamePage() {
           {TEAMS.map((team, i) => (
             <div key={i} style={{
               display: "flex", alignItems: "center", gap: 10, padding: "6px 16px",
-              borderRadius: 50, background: `rgba(${team.color === "#6C5CE7" ? "108,92,231" : team.color === "#00B894" ? "0,184,148" : "225,112,85"},.1)`,
+              borderRadius: 50, background: `rgba(${team.color === "#6C5CE7" ? "108,92,231" : team.color === "#00B894" ? "0,184,148" : team.color === "#E17055" ? "225,112,85" : "253,203,110"},.1)`,
               border: `1px solid ${team.color}33`,
             }}>
               <span style={{ fontSize: "1.2rem" }}>{team.emoji}</span>
